@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ideal gaz — interaktiv dars</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#eef2ff;--card:#fff;--tx:#1e293b;--mut:#64748b;--pri:#4f46e5;--acc:#f97316;--ok:#16a34a;--bad:#dc2626;--line:#e2e8f0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1020;--card:#151b30;--tx:#e5e9f7;--mut:#94a3b8;--line:#2a3350}}
+:root[data-theme="dark"]{--bg:#0b1020;--card:#151b30;--tx:#e5e9f7;--mut:#94a3b8;--line:#2a3350}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{background:linear-gradient(135deg,#4f46e5,#ec4899 60%,#f97316);color:#fff;padding:22px 16px;text-align:center}
+header h1{margin:0;font-size:1.7rem}header p{margin:4px 0 0;opacity:.9}
+nav{display:flex;gap:8px;justify-content:center;padding:14px 10px;flex-wrap:wrap}
+.tab{border:2px solid var(--pri);background:var(--card);color:var(--pri);padding:10px 18px;border-radius:999px;font-weight:700;cursor:pointer;font-size:1rem}
+.tab.on{background:var(--pri);color:#fff}
+main{max-width:980px;margin:0 auto;padding:0 12px 30px}
+.sec{display:none}.sec.on{display:block}
+.card{background:var(--card);border-radius:18px;padding:16px;margin:0 0 16px;box-shadow:0 4px 18px rgba(79,70,229,.12)}
+h2{margin:0 0 10px;font-size:1.25rem;color:var(--pri)}
+ul{margin:0;padding-left:20px}li{margin:5px 0}
+.formula{background:linear-gradient(90deg,#fef3c7,#fde68a);color:#78350f;border-radius:12px;padding:10px;text-align:center;font-size:1.25rem;font-weight:700;margin:10px 0}
+canvas{width:100%;height:auto;display:block;border-radius:14px;background:#0b1226;touch-action:pan-y}
+.row{display:flex;gap:14px;flex-wrap:wrap}.row>canvas{flex:2 1 320px;min-width:0}
+.props{flex:1 1 200px;display:grid;gap:8px;align-content:start}
+.props h3{margin:0;font-size:1rem}
+.chip{background:var(--bg);border-left:5px solid var(--acc);border-radius:10px;padding:8px 10px;font-size:.93rem}
+.legend{display:flex;gap:10px;align-items:center;font-size:.9rem;margin-top:8px;color:var(--mut)}
+.legend i{flex:1;height:10px;border-radius:5px;background:linear-gradient(90deg,#0a3cff,#ff3c0a)}
+.ctl{display:grid;gap:10px;margin-top:12px}
+.ctl label{display:grid;gap:2px;font-weight:600}
+input[type=range]{width:100%;accent-color:var(--pri);height:28px}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+button.b{border:0;border-radius:12px;padding:10px 14px;font-weight:700;color:#fff;background:var(--pri);cursor:pointer;font-size:.95rem}
+button.b.o{background:var(--acc)}button.b.g{background:#0d9488}button.b.r{background:#64748b}
+.note{color:var(--mut);font-size:.9rem;margin:6px 0 0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:12px 0}
+.stat{background:var(--bg);border-radius:12px;padding:8px 10px;text-align:center}
+.stat b{display:block;font-size:1.3rem;color:var(--pri)}.stat span{font-size:.8rem;color:var(--mut)}
+.two{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}.two>*{flex:1 1 280px;min-width:0}
+details{background:var(--bg);border-radius:12px;padding:10px 12px;margin:8px 0}summary{cursor:pointer;font-weight:700}
+.q{margin:12px 0;padding:10px;border-radius:12px;background:var(--bg)}
+.q label{display:block;padding:5px 4px;cursor:pointer}
+.res{font-weight:700;margin-top:6px}
+</style>
+</head>
+<body>
+<header><h1>⚛️ Ideal gaz</h1><p>9-sinf fizika · interaktiv o'quv material</p></header>
+<nav>
+  <button class="tab on" data-t="s1">1. Ideal gaz</button>
+  <button class="tab" data-t="s2">2. Ideal gazning bosimi</button>
+</nav>
+<main>
+
+<!-- ============ 1-BO'LIM ============ -->
+<section id="s1" class="sec on">
+  <div class="card"><h2>📖 Nazariy ma'lumot</h2><ul>
+    <li><b>Ideal gaz</b> — molekulalari moddiy nuqta deb qaraladigan va o'zaro ta'sirlashmaydigan gaz modeli.</li>
+    <li>Molekulalar orasidagi masofa molekulalarning o'lchamidan ancha katta.</li>
+    <li>Molekulalar tartibsiz harakatlanadi va faqat o'zaro hamda idish devori bilan absolyut elastik to'qnashadi.</li>
+    <li>Haqiqiy gazlar <b>past bosim</b> va <b>yuqori haroratda</b> ideal gazga yaqin bo'ladi.</li>
+  </ul></div>
+
+  <div class="card"><h2>🎬 Animatsiya</h2>
+    <div class="row">
+      <canvas id="a1" width="600" height="340"></canvas>
+      <aside class="props"><h3>Ideal gaz modelining xossalari</h3>
+        <div class="chip">● Molekula — moddiy nuqta</div>
+        <div class="chip">↔ Masofa o'lchamdan ancha katta</div>
+        <div class="chip">🚫 O'zaro tortishish yo'q</div>
+        <div class="chip">💥 Absolyut elastik to'qnashuv</div>
+        <div class="legend">Sekin<i></i>Tez</div>
+        <p class="note">Qizil — tez, ko'k — sekin molekulalar.</p>
+      </aside>
+    </div>
+  </div>
+
+  <div class="card"><h2>🧪 Simulyatsiya</h2>
+    <canvas id="c1" width="600" height="340"></canvas>
+    <div class="ctl">
+      <label>Harorat: <b id="t1v">300</b> K<input type="range" id="t1" min="100" max="1000" value="300"></label>
+      <label>Molekulalar soni: <b id="n1v">45</b><input type="range" id="n1" min="10" max="80" value="45"></label>
+      <div class="btns">
+        <button class="b o" id="m1">Hozir: Ideal gaz (almashtirish)</button>
+        <button class="b g" id="go1">▶ Start</button><button class="b" id="ps1">⏸ Pauza</button><button class="b r" id="rs1">↺ Qayta boshlash</button>
+      </div>
+      <p class="note" id="md1">Ideal gaz: molekulalar nuqtaday kichik, bir-biriga tortilmaydi.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2-BO'LIM ============ -->
+<section id="s2" class="sec">
+  <div class="card"><h2>📖 Nazariy ma'lumot</h2><ul>
+    <li>Gaz bosimi molekulalarning idish devoriga uradigan zarbalari natijasida vujudga keladi.</li>
+    <li>Bosim <b>p = F/S</b> formulasi bilan aniqlanadi, birligi Paskal (Pa).</li>
+    <li>Molekular-kinetik nazariyaning asosiy tenglamasi:</li>
+  </ul>
+  <div class="formula">p = ⅓ · n · m₀ · v²</div>
+  <ul><li>n — molekulalar konsentratsiyasi, m₀ — bitta molekula massasi, v — molekulalarning o'rtacha tezligi.</li>
+    <li>Bosim molekulalar konsentratsiyasiga va o'rtacha kinetik energiyaga (haroratga) to'g'ridan-to'g'ri bog'liq.</li></ul></div>
+
+  <div class="card"><h2>🎬 Animatsiya</h2>
+    <canvas id="a2" width="600" height="340"></canvas>
+    <p class="note">Molekula devorga urilganda devorda ✨ chaqnash paydo bo'ladi. Sariq strelka — gazning devorga ta'sir kuchi (F). Zarbalar soni chap yuqorida hisoblanadi.</p>
+  </div>
+
+  <div class="card"><h2>🧪 Simulyatsiya</h2>
+    <canvas id="c2" width="600" height="340" style="touch-action:none;cursor:ew-resize"></canvas>
+    <p class="note">Porshenni sichqoncha (yoki barmoq) bilan suring yoki pastdagi slayderdan foydalaning.</p>
+    <div class="stats">
+      <div class="stat"><b id="hits2">0</b><span>Zarbalar soni / sekund</span></div>
+      <div class="stat"><b id="spd2">0</b><span>O'rtacha tezlik (m/s)</span></div>
+      <div class="stat"><b id="vol2">8.0</b><span>Hajm (litr)</span></div>
+      <div class="stat"><b id="p2">0</b><span>Bosim (kPa)</span></div>
+    </div>
+    <div class="two"><div><canvas id="gg" width="320" height="190"></canvas></div><div><canvas id="gr" width="600" height="200"></canvas><p class="note">Bosimning vaqt bo'yicha grafigi (kPa)</p></div></div>
+    <div class="ctl">
+      <label>Hajm (porshen): <b id="v2v">8.0 l</b><input type="range" id="v2" min="150" max="600" value="600"></label>
+      <label>Harorat: <b id="t2v">300</b> K<input type="range" id="t2" min="100" max="1000" value="300"></label>
+      <label>Molekulalar soni: <b id="n2v">40</b><input type="range" id="n2" min="10" max="80" value="40"></label>
+      <div class="btns"><button class="b g" id="go2">▶ Start</button><button class="b" id="ps2">⏸ Pauza</button><button class="b r" id="rs2">↺ Qayta boshlash</button></div>
+    </div>
+    <h2 style="margin-top:16px">🔍 Kuzatish savollari</h2>
+    <details><summary>1. Hajm kamaysa bosim qanday o'zgaradi? Nima uchun?</summary>Bosim ortadi. Hajm kichrayganda molekulalar devorga tez-tez uriladi (n ortadi), zarbalar soni ko'payadi va bosim kuchayadi.</details>
+    <details><summary>2. Harorat ortsa bosim qanday o'zgaradi?</summary>Bosim ortadi. Harorat oshsa molekulalar tezligi ortadi: ular devorga tez-tez va kuchliroq uriladi.</details>
+  </div>
+</section>
+
+<!-- ============ TEST ============ -->
+<div class="card"><h2>📝 Bilimingizni sinang</h2><div id="quiz"></div>
+  <button class="b" id="chk">Javobni tekshirish</button><div class="res" id="score"></div></div>
+</main>
+
+<script>
+/* ---------- Yordamchi ---------- */
+const $ = id => document.getElementById(id);
+const KP = 30;      // bosimni kPa ga o'tkazish koeffitsienti (N=40, T=300 K, to'liq hajmda ~100 kPa)
+const gases = [];   // barcha idishlar ro'yxati
+
+/* ---------- Gaz modeli (Canvas) ---------- */
+class Gas {
+  constructor(cv, o = {}) {
+    Object.assign(this, {cv, c: cv.getContext("2d"), W: cv.width, H: cv.height, L: cv.width,
+      T: 300, N: o.N || 40, real: false, run: true, piston: !!o.piston, fl: !!o.fl, arrow: !!o.arrow, counter: !!o.counter,
+      mols: [], flashes: [], win: 0, imp: 0, wh: 0, p: 0, hitRate: 0, tot: 0, hist: []});
+    this.setN(this.N);
+    gases.push(this);
+  }
+  get k() { return 130 * Math.sqrt(this.T / 300); }   // tezlik masshtabi: v ~ √T
+  get r() { return this.real ? 9 : 3.5; }             // haqiqiy gazda molekula katta
+  gauss() { return Math.sqrt(-2 * Math.log(1 - Math.random())) * Math.cos(6.2832 * Math.random()); }
+  setN(n) {
+    this.N = n;
+    while (this.mols.length < n)
+      this.mols.push({x: 10 + Math.random() * (this.L - 20), y: 10 + Math.random() * (this.H - 20), ux: this.gauss(), uy: this.gauss()});
+    this.mols.length = n;
+  }
+  reset() { this.mols = []; this.hist = []; this.p = 0; this.tot = 0; this.setN(this.N); }
+  hit(x, y, u) {                 // devorga zarba: hisoblash, impuls, chaqnash
+    this.tot++; this.wh++; this.imp += 2 * Math.abs(u) * this.k;
+    if (this.fl && this.flashes.length < 60) this.flashes.push({x, y, t: 0});
+  }
+  step(dt) {
+    const r = this.r, k = this.k, m = this.mols, L = this.L, H = this.H;
+    for (const a of m) {
+      a.x += a.ux * k * dt; a.y += a.uy * k * dt;
+      // devor bilan absolyut elastik urilish
+      if (a.x < r)     { a.x = r;     this.hit(0, a.y, a.ux); a.ux = Math.abs(a.ux); }
+      if (a.x > L - r) { a.x = L - r; this.hit(L, a.y, a.ux); a.ux = -Math.abs(a.ux); }
+      if (a.y < r)     { a.y = r;     this.hit(a.x, 0, a.uy); a.uy = Math.abs(a.uy); }
+      if (a.y > H - r) { a.y = H - r; this.hit(a.x, H, a.uy); a.uy = -Math.abs(a.uy); }
+    }
+    // molekulalar o'zaro to'qnashuvi (teng massa: normal tezlik komponentalari almashadi)
+    for (let i = 0; i < m.length; i++) for (let j = i + 1; j < m.length; j++) {
+      const a = m[i], b = m[j], dx = b.x - a.x, dy = b.y - a.y, d2 = dx * dx + dy * dy, D = 2 * r;
+      if (d2 > 0 && d2 < D * D) {
+        const d = Math.sqrt(d2), nx = dx / d, ny = dy / d, vn = (a.ux - b.ux) * nx + (a.uy - b.uy) * ny;
+        if (vn > 0) { a.ux -= vn * nx; a.uy -= vn * ny; b.ux += vn * nx; b.uy += vn * ny; }
+        const o = (D - d) / 2; a.x -= nx * o; a.y -= ny * o; b.x += nx * o; b.y += ny * o;
+      } else if (this.real && d2 > 0 && d2 < 3600) {   // haqiqiy gaz: o'zaro tortishish
+        const d = Math.sqrt(d2), f = 0.8 * dt;
+        a.ux += dx / d * f; a.uy += dy / d * f; b.ux -= dx / d * f; b.uy -= dy / d * f;
+      }
+    }
+    this.flashes = this.flashes.filter(f => (f.t += dt) < 0.25);
+    // bosim: 0.3 s oynada devorga berilgan impuls / (vaqt · yuza)
+    this.win += dt;
+    if (this.win >= 0.3) {
+      this.p = 0.5 * this.p + 0.5 * this.imp / (this.win * 2 * (L + H)) * KP;
+      this.hitRate = 0.5 * this.hitRate + 0.5 * this.wh / this.win;
+      this.win = this.imp = this.wh = 0;
+      this.hist.push(this.p); if (this.hist.length > 120) this.hist.shift();
+    }
+  }
+  get avgSpeed() { return this.k * 3 * this.mols.reduce((s, a) => s + Math.hypot(a.ux, a.uy), 0) / (this.mols.length || 1); }
+  draw() {
+    const c = this.c, W = this.W, H = this.H, L = this.L;
+    c.clearRect(0, 0, W, H);
+    c.fillStyle = "#1e293b"; c.fillRect(0, 0, W, H);
+    c.fillStyle = "#0b1226"; c.fillRect(0, 0, L, H);
+    if (this.piston) {           // porshen va shtok
+      c.fillStyle = "#94a3b8"; c.fillRect(L, 0, 16, H);
+      c.fillStyle = "#cbd5e1"; c.fillRect(L + 16, H / 2 - 7, W - L - 16, 14);
+    }
+    const sc = Math.sqrt(this.T / 300);
+    for (const a of this.mols) {         // rang tezlikka qarab: ko'k (sekin) → qizil (tez)
+      const t = Math.min(1, Math.max(0, (Math.hypot(a.ux, a.uy) * sc - 0.4) / 1.8));
+      c.fillStyle = `rgb(${30 + 225 * t | 0},70,${255 - 215 * t | 0})`;
+      c.beginPath(); c.arc(a.x, a.y, this.r, 0, 7); c.fill();
+      if (this.real) { c.strokeStyle = "rgba(255,255,255,.6)"; c.lineWidth = 1.5; c.stroke(); }
+    }
+    for (const f of this.flashes) {      // devordagi chaqnash
+      c.fillStyle = `rgba(255,235,130,${1 - f.t / 0.25})`;
+      c.beginPath(); c.arc(f.x, f.y, 6 + f.t * 70, 0, 7); c.fill();
+    }
+    if (this.arrow) {                    // kuch strelkasi (F)
+      const len = Math.min(L - 40, Math.max(6, this.p * 1.2)), y = H / 2, x1 = L - 6, x0 = x1 - len;
+      c.strokeStyle = c.fillStyle = "#facc15"; c.lineWidth = 6;
+      c.beginPath(); c.moveTo(x0, y); c.lineTo(x1 - 10, y); c.stroke();
+      c.beginPath(); c.moveTo(x1, y); c.lineTo(x1 - 16, y - 11); c.lineTo(x1 - 16, y + 11); c.fill();
+      c.font = "bold 16px sans-serif"; c.textAlign = "left"; c.fillText("F (kuch)", x0, y - 14);
+    }
+    if (this.counter) {
+      c.fillStyle = "#fff"; c.font = "bold 15px sans-serif"; c.textAlign = "left";
+      c.fillText(`Zarbalar soni: ${this.tot}  (≈ ${this.hitRate.toFixed(0)} /s)`, 10, 22);
+    }
+  }
+}
+
+/* ---------- Idishlarni yaratish ---------- */
+const a1 = new Gas($("a1"), {N: 50});
+const g1 = new Gas($("c1"), {N: 45});
+const a2 = new Gas($("a2"), {N: 45, fl: true, arrow: true, counter: true});
+const g2 = new Gas($("c2"), {N: 40, piston: true, fl: true, arrow: true});
+
+/* ---------- Boshqaruv elementlari ---------- */
+function bind(g, p) {
+  $("t" + p).oninput = e => { g.T = +e.target.value; $("t" + p + "v").textContent = e.target.value; };
+  $("n" + p).oninput = e => { g.setN(+e.target.value); $("n" + p + "v").textContent = e.target.value; };
+  $("go" + p).onclick = () => g.run = true;
+  $("ps" + p).onclick = () => g.run = false;
+  $("rs" + p).onclick = () => { g.reset(); g.run = true; };
+}
+bind(g1, 1); bind(g2, 2);
+
+$("m1").onclick = () => {              // Ideal ↔ Haqiqiy gaz
+  g1.real = !g1.real;
+  $("m1").textContent = "Hozir: " + (g1.real ? "Haqiqiy gaz" : "Ideal gaz") + " (almashtirish)";
+  $("md1").textContent = g1.real
+    ? "Haqiqiy gaz: molekulalar katta o'lchamli va bir-biriga tortiladi — past haroratda ular guruhlanib qoladi."
+    : "Ideal gaz: molekulalar nuqtaday kichik, bir-biriga tortilmaydi.";
+};
+
+function setPiston(L) {                // porshen holati (slayder va sichqoncha uchun umumiy)
+  g2.L = Math.min(600, Math.max(150, L));
+  $("v2").value = g2.L; $("v2v").textContent = (g2.L / 600 * 8).toFixed(1) + " l";
+}
+$("v2").oninput = e => setPiston(+e.target.value);
+let drag = false;
+const px = e => { const r = g2.cv.getBoundingClientRect(); return (e.clientX - r.left) * g2.W / r.width; };
+g2.cv.onpointerdown = e => { if (Math.abs(px(e) - g2.L) < 40) { drag = true; g2.cv.setPointerCapture(e.pointerId); } };
+g2.cv.onpointermove = e => { if (drag) setPiston(px(e)); };
+g2.cv.onpointerup = () => drag = false;
+
+/* Bo'limlar (tab) */
+document.querySelectorAll(".tab").forEach(b => b.onclick = () => {
+  document.querySelectorAll(".tab").forEach(x => x.classList.toggle("on", x === b));
+  document.querySelectorAll(".sec").forEach(s => s.classList.toggle("on", s.id === b.dataset.t));
+});
+
+/* ---------- Manometr va grafik ---------- */
+let needle = 0;
+function gauge(p) {
+  const c = $("gg").getContext("2d"), cx = 160, cy = 160, R = 120;
+  c.clearRect(0, 0, 320, 190);
+  c.lineWidth = 16;
+  [["#22c55e", 0, .5], ["#eab308", .5, .75], ["#ef4444", .75, 1]].forEach(([col, a, b]) => {
+    c.strokeStyle = col; c.beginPath(); c.arc(cx, cy, R, Math.PI * (1 + a), Math.PI * (1 + b)); c.stroke();
+  });
+  c.fillStyle = "#e2e8f0"; c.font = "12px sans-serif"; c.textAlign = "center";
+  for (let i = 0; i <= 6; i++) { const a = Math.PI * (1 + i / 6); c.fillText(i * 50, cx + Math.cos(a) * (R - 26), cy + Math.sin(a) * (R - 26) + 4); }
+  needle += (Math.min(1, p / 300) - needle) * 0.15;   // strelka silliq harakatlanadi
+  const a = Math.PI * (1 + needle);
+  c.strokeStyle = "#f8fafc"; c.lineWidth = 4; c.beginPath(); c.moveTo(cx, cy); c.lineTo(cx + Math.cos(a) * (R - 38), cy + Math.sin(a) * (R - 38)); c.stroke();
+  c.fillStyle = "#f8fafc"; c.beginPath(); c.arc(cx, cy, 8, 0, 7); c.fill();
+  c.font = "bold 16px sans-serif"; c.fillText(p.toFixed(0) + " kPa", cx, cy + 28);
+}
+function graph(H) {
+  const c = $("gr").getContext("2d"), w = 600, h = 200, mx = Math.max(200, ...H) * 1.1;
+  c.clearRect(0, 0, w, h); c.lineWidth = 1; c.font = "11px sans-serif"; c.textAlign = "left";
+  for (let i = 0; i <= 4; i++) {
+    const y = h - 20 - (h - 30) * i / 4;
+    c.strokeStyle = "rgba(148,163,184,.25)"; c.beginPath(); c.moveTo(40, y); c.lineTo(w, y); c.stroke();
+    c.fillStyle = "#94a3b8"; c.fillText((mx * i / 4).toFixed(0), 4, y + 4);
+  }
+  c.fillText("vaqt →", w - 50, h - 4);
+  c.strokeStyle = "#38bdf8"; c.lineWidth = 2.5; c.beginPath();
+  H.forEach((v, i) => { const x = 40 + (w - 45) * (i + 120 - H.length) / 119, y = h - 20 - (h - 30) * v / mx; i ? c.lineTo(x, y) : c.moveTo(x, y); });
+  c.stroke();
+}
+
+/* ---------- Asosiy sikl ---------- */
+let last = performance.now();
+function loop(t) {
+  const dt = Math.min(0.033, (t - last) / 1000); last = t;
+  for (const g of gases) if (g.cv.offsetParent) {        // faqat ko'rinib turgan idishlar
+    if (g.run) for (let i = 0; i < 3; i++) g.step(dt / 3);
+    g.draw();
+  }
+  if (g2.cv.offsetParent) {
+    $("hits2").textContent = g2.hitRate.toFixed(0);
+    $("spd2").textContent = g2.avgSpeed.toFixed(0);
+    $("vol2").textContent = (g2.L / 600 * 8).toFixed(1);
+    $("p2").textContent = g2.p.toFixed(0);
+    gauge(g2.p); graph(g2.hist);
+  }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+/* ---------- Test savollari ---------- */
+const Q = [
+  {q: "Ideal gaz modelida molekulalar qanday qaraladi?", o: ["Moddiy nuqta, o'zaro ta'sirlashmaydi", "Katta o'lchamli, bir-birini kuchli tortadi", "Bir joyda qimirlamay turadi"], a: 0,
+   e: "Ideal gaz molekulalari moddiy nuqta va o'zaro ta'sirlashmaydi."},
+  {q: "Harorat o'zgarmasa, porshen bilan hajm kamaytirilganda bosim qanday o'zgaradi?", o: ["Kamayadi", "Ortadi", "O'zgarmaydi"], a: 1,
+   e: "Hajm kamaysa, molekulalar devorga tez-tez uriladi va bosim ortadi."},
+  {q: "Haqiqiy gaz qachon ideal gazga yaqin bo'ladi?", o: ["Yuqori bosim va past haroratda", "Faqat suyuqlikka aylanganda", "Past bosim va yuqori haroratda"], a: 2,
+   e: "Past bosimda molekulalar orasi uzoq, yuqori haroratda tortishish ta'siri kam."}
+];
+$("quiz").innerHTML = Q.map((x, i) => `<div class="q" id="q${i}"><b>${i + 1}. ${x.q}</b>` +
+  x.o.map((o, j) => `<label><input type="radio" name="q${i}" value="${j}"> ${o}</label>`).join("") + `<div class="res" id="r${i}"></div></div>`).join("");
+$("chk").onclick = () => {
+  let s = 0;
+  Q.forEach((x, i) => {
+    const ch = document.querySelector(`input[name=q${i}]:checked`), r = $("r" + i);
+    if (!ch) { r.textContent = "⚠️ Javob variantini tanlang."; r.style.color = "var(--mut)"; return; }
+    const ok = +ch.value === x.a; s += ok;
+    r.textContent = (ok ? "✅ To'g'ri! " : "❌ Noto'g'ri. ") + x.e; r.style.color = ok ? "var(--ok)" : "var(--bad)";
+  });
+  $("score").textContent = `Natija: ${s} / ${Q.length}`;
+};
+</script>
+</body>
+</html>

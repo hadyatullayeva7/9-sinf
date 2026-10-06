@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>9-sinf fizika. 14-mavzu: 1-reja</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,sans-serif;background:linear-gradient(135deg,#ede9fe,#e0f2fe);color:#1e293b;padding:12px}
+.wrap{max-width:780px;margin:auto}
+h1{font-size:1.2rem;margin:4px 0 10px;color:#5b21b6}
+h2{font-size:1.05rem;color:#5b21b6;margin:0 0 8px}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px}
+.tabs button{flex:1;white-space:nowrap;border:0;border-radius:12px;padding:10px 12px;font-size:.95rem;font-weight:700;background:#fff;color:#5b21b6;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.tabs button.on{background:#7c3aed;color:#fff}
+.tab{display:none}.tab.on{display:block}
+.card{background:#fff;border-radius:16px;padding:14px;box-shadow:0 4px 14px rgba(0,0,0,.08);margin-bottom:12px;line-height:1.55}
+.card ul{padding-left:20px;margin:6px 0}
+.fm{background:#f5f3ff;border-radius:10px;padding:8px 12px;margin:4px 0;font-weight:600}
+.ex{border-left:5px solid #f97316;background:#fff7ed;border-radius:8px;padding:10px;margin:8px 0}
+details{background:#ecfdf5;border-radius:8px;padding:8px 10px;margin-top:6px}
+summary{cursor:pointer;font-weight:700;color:#047857}
+canvas{width:100%;height:auto;border-radius:12px;display:block}
+.row{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:.95rem}
+.row label{width:125px;flex:none}
+.row input{flex:1;accent-color:#7c3aed}
+.row b{width:68px;text-align:right;color:#7c3aed}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.btns button{flex:1;min-width:100px;border:0;border-radius:12px;padding:12px;font-size:1rem;font-weight:700;color:#fff;cursor:pointer}
+.g{background:#16a34a}.y{background:#f59e0b}.r{background:#ef4444}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:8px}
+.res{background:#f5f3ff;border-radius:12px;padding:8px;text-align:center;font-size:.85rem;color:#64748b}
+.res span{display:block;font-size:1.15rem;font-weight:800;color:#5b21b6}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>⚛️ 14-mavzu: Masalalar yechish. 1-reja</h1>
+<div class="tabs" id="tabs">
+<button class="on" data-t="t1">📘 Nazariya</button>
+<button data-t="t2">✍️ Masalalar</button>
+<button data-t="t3">🎛 Simulyatsiya</button>
+<button data-t="t4">🎬 Animatsiya</button>
+</div>
+
+<!-- NAZARIYA -->
+<div class="tab on" id="t1">
+<div class="card"><h2>Asosiy formulalar</h2>
+<div class="fm">Tezlik: v = v₀ + at</div>
+<div class="fm">Yo'l: s = v₀t + at²/2</div>
+<div class="fm">Nyuton 2-qonuni: F = ma; og'irlik kuchi F = mg (g ≈ 10 m/s²)</div>
+<div class="fm">Impuls: p = mv (kg·m/s)</div>
+<div class="fm">Ish: A = F·s (J)</div>
+<div class="fm">Kinetik energiya: Eₖ = mv²/2; potensial energiya: Eₚ = mgh (J)</div>
+</div>
+</div>
+
+<!-- MASALALAR -->
+<div class="tab" id="t2">
+<div class="card"><h2>Namunaviy masalalar</h2>
+<div class="ex"><b>1-masala.</b> Massasi 2 kg jismga 6 N kuch ta'sir qiladi. Tezlanishini toping.
+<ul><li><b>Berilgan:</b> m = 2 kg, F = 6 N</li><li><b>Topish kerak:</b> a = ?</li><li><b>Formula:</b> a = F/m</li><li><b>Yechilishi:</b> a = 6 / 2 = 3</li></ul>
+<b>Javob:</b> a = 3 m/s²</div>
+<div class="ex"><b>2-masala.</b> Massasi 3 kg jism 4 m/s tezlik bilan harakatlanmoqda. Impulsi va kinetik energiyasini toping.
+<ul><li><b>Berilgan:</b> m = 3 kg, v = 4 m/s</li><li><b>Topish kerak:</b> p = ?, Eₖ = ?</li><li><b>Formula:</b> p = mv, Eₖ = mv²/2</li><li><b>Yechilishi:</b> p = 3·4 = 12; Eₖ = 3·4²/2 = 24</li></ul>
+<b>Javob:</b> p = 12 kg·m/s, Eₖ = 24 J</div>
+</div>
+<div class="card"><h2>Mustaqil masalalar</h2>
+<p>1. Massasi 5 kg jismga 20 N kuch ta'sir qiladi. Tezlanishi qancha?</p>
+<details><summary>Javobni ko'rish</summary>a = F/m = 20/5 = 4 m/s²</details>
+<p>2. Jism tinch holatdan 2 m/s² tezlanish bilan 5 s harakatlandi. Oxirgi tezligi va yo'lini toping.</p>
+<details><summary>Javobni ko'rish</summary>v = at = 10 m/s; s = at²/2 = 25 m</details>
+</div>
+</div>
+
+<!-- SIMULYATSIYA -->
+<div class="tab" id="t3">
+<div class="card"><canvas id="cv1" width="700" height="220"></canvas></div>
+<div class="card">
+<div class="row"><label>Massa m</label><input type="range" id="m" min="1" max="10" step="0.5" value="2"><b id="mv"></b></div>
+<div class="row"><label>Kuch F</label><input type="range" id="F" min="0" max="50" step="1" value="6"><b id="Fv"></b></div>
+<div class="row"><label>Boshl. tezlik v₀</label><input type="range" id="v0" min="0" max="10" step="0.5" value="2"><b id="v0v"></b></div>
+<div class="row"><label>Vaqt T</label><input type="range" id="T" min="1" max="10" step="0.5" value="5"><b id="Tv"></b></div>
+<div class="btns"><button class="g" id="bS">▶ Boshlash</button><button class="y" id="bP">⏸ To'xtatish</button><button class="r" id="bR">↺ Qayta boshlash</button></div>
+</div>
+<div class="card"><div class="grid">
+<div class="res">Vaqt t<span id="rt"></span></div>
+<div class="res">a = F/m (m/s²)<span id="ra"></span></div>
+<div class="res">v (m/s)<span id="rv"></span></div>
+<div class="res">s (m)<span id="rs"></span></div>
+<div class="res">p = mv (kg·m/s)<span id="rp"></span></div>
+<div class="res">A = F·s (J)<span id="rA"></span></div>
+<div class="res">Eₖ (J)<span id="rE"></span></div>
+</div></div>
+</div>
+
+<!-- ANIMATSIYA -->
+<div class="tab" id="t4">
+<div class="card"><div class="ex" style="margin:0"><b>Masala:</b> Massasi 2 kg jism 2 m/s tezlik bilan harakatlanmoqda. Unga harakat yo'nalishida 6 N kuch 5 s davomida ta'sir qiladi. Tezlanish, oxirgi tezlik va yo'lni toping.</div></div>
+<div class="card"><canvas id="cv2" width="700" height="420"></canvas>
+<div class="btns"><button class="g" id="aS">▶ Boshlash</button><button class="r" id="aR">↺ Qayta boshlash</button></div></div>
+</div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const f=n=>(Math.round(n*100)/100).toString();
+let sim,ani;
+/* Tablar */
+document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#tabs button,.tab').forEach(e=>e.classList.remove('on'));
+  b.classList.add('on');$(b.dataset.t).classList.add('on');
+  if(b.dataset.t=='t3')sim.draw();
+  if(b.dataset.t=='t4')ani.draw();
+});
+
+/* SIMULYATSIYA */
+sim=(()=>{
+  const x=$('cv1').getContext('2d');
+  let t=0,run=false,last=0;
+  const P=()=>({m:+$('m').value,F:+$('F').value,v0:+$('v0').value,T:+$('T').value});
+  function calc(t){const {m,F,v0}=P(),a=F/m,v=v0+a*t,s=v0*t+a*t*t/2;return{a,v,s,p:m*v,A:F*s,E:m*v*v/2};}
+  function labels(){const p=P();$('mv').textContent=p.m+' kg';$('Fv').textContent=p.F+' N';$('v0v').textContent=p.v0+' m/s';$('Tv').textContent=p.T+' s';}
+  function draw(){
+    const {m,F,T}=P(),r=calc(t),mx=calc(T).s||1;
+    x.fillStyle='#e0f2fe';x.fillRect(0,0,700,220);
+    x.fillStyle='#64748b';x.fillRect(0,170,700,10);
+    x.fillStyle='#22c55e';x.fillRect(545,150,4,20);
+    const size=30+m*4,px=30+(r.s/mx)*440;
+    x.fillStyle='#7c3aed';x.fillRect(px,170-size,size,size);
+    x.fillStyle='#fff';x.font='bold 15px sans-serif';x.fillText(m+' kg',px+4,170-size/2+5);
+    if(F>0){
+      const L=F*2,y=170-size/2,ax=px+size;
+      x.strokeStyle=x.fillStyle='#ef4444';x.lineWidth=4;
+      x.beginPath();x.moveTo(ax,y);x.lineTo(ax+L,y);x.stroke();
+      x.beginPath();x.moveTo(ax+L+10,y);x.lineTo(ax+L-4,y-7);x.lineTo(ax+L-4,y+7);x.fill();
+      x.font='bold 14px sans-serif';x.fillText('F = '+F+' N',ax+4,y-12);
+    }
+    x.fillStyle='#334155';x.font='14px sans-serif';x.fillText('s = '+f(r.s)+' m',10,24);
+    $('rt').textContent=f(t)+' s';$('ra').textContent=f(r.a);$('rv').textContent=f(r.v);
+    $('rs').textContent=f(r.s);$('rp').textContent=f(r.p);$('rA').textContent=f(r.A);$('rE').textContent=f(r.E);
+  }
+  function loop(ts){
+    if(!run)return;
+    t+=(ts-last)/1000;last=ts;
+    if(t>=P().T){t=P().T;run=false;}
+    draw();if(run)requestAnimationFrame(loop);
+  }
+  $('bS').onclick=()=>{if(run)return;if(t>=P().T)t=0;run=true;last=performance.now();requestAnimationFrame(loop);};
+  $('bP').onclick=()=>{run=false;};
+  $('bR').onclick=()=>{run=false;t=0;draw();};
+  ['m','F','v0','T'].forEach(id=>$(id).oninput=()=>{labels();if(t>P().T)t=P().T;if(!run)draw();});
+  labels();draw();
+  return{draw};
+})();
+
+/* ANIMATSIYA */
+ani=(()=>{
+  const x=$('cv2').getContext('2d');
+  const F=6,v0=2,T=5,a=3,S=v0*T+a*T*T/2,VM=v0+a*T;
+  let t=0,run=false,last=0;
+  const V=t=>v0+a*t,Sx=t=>v0*t+a*t*t/2;
+  function arrow(x1,y1,x2,y2,c){
+    x.strokeStyle=x.fillStyle=c;x.lineWidth=4;
+    x.beginPath();x.moveTo(x1,y1);x.lineTo(x2,y2);x.stroke();
+    x.beginPath();x.moveTo(x2+10,y2);x.lineTo(x2-3,y2-7);x.lineTo(x2-3,y2+7);x.fill();
+  }
+  function draw(){
+    x.fillStyle='#fff';x.fillRect(0,0,700,420);
+    x.fillStyle='#e2e8f0';x.fillRect(0,0,700,200);
+    x.fillStyle='#475569';x.fillRect(0,150,700,10);
+    const px=40+Sx(t)/S*430;
+    x.fillStyle='#ec4899';x.fillRect(px,110,60,40);
+    x.fillStyle='#fff';x.font='bold 15px sans-serif';x.fillText('2 kg',px+14,135);
+    x.fillStyle='#1e293b';x.beginPath();x.arc(px+14,152,7,0,7);x.arc(px+46,152,7,0,7);x.fill();
+    arrow(px+60,130,px+60+F*9,130,'#ef4444');
+    x.fillStyle='#ef4444';x.font='bold 14px sans-serif';x.fillText('F = 6 N',px+64,118);
+    arrow(px+30,98,px+30+V(t)*4,98,'#2563eb');
+    x.fillStyle='#2563eb';x.fillText('v = '+V(t).toFixed(1)+' m/s',px+30,86);
+    x.fillStyle='#334155';x.font='14px sans-serif';
+    x.fillText('t = '+t.toFixed(1)+' s   s = '+Sx(t).toFixed(1)+' m   a = 3 m/s²',12,24);
+    const gx=60,gy=400,gw=600,gh=150;
+    x.strokeStyle='#334155';x.lineWidth=2;
+    x.beginPath();x.moveTo(gx,gy-gh-10);x.lineTo(gx,gy);x.lineTo(gx+gw+10,gy);x.stroke();
+    x.font='13px sans-serif';x.fillStyle='#334155';
+    x.fillText('v, m/s',8,gy-gh-12);x.fillText('t, s',gx+gw-10,gy+16);
+    for(let i=0;i<=5;i++){const X=gx+i*gw/T;x.fillText(i,X-3,gy+16);x.fillStyle='#e2e8f0';x.fillRect(X,gy-gh,1,gh);x.fillStyle='#334155';}
+    for(let v=0;v<=15;v+=5){const Y=gy-v/VM*gh;x.fillText(v,34,Y+4);x.fillStyle='#e2e8f0';x.fillRect(gx,Y,gw,1);x.fillStyle='#334155';}
+    x.setLineDash([6,5]);x.strokeStyle='#94a3b8';
+    x.beginPath();x.moveTo(gx,gy-v0/VM*gh);x.lineTo(gx+gw,gy-gh);x.stroke();x.setLineDash([]);
+    x.strokeStyle='#2563eb';x.lineWidth=4;x.beginPath();x.moveTo(gx,gy-v0/VM*gh);
+    for(let k=0;k<=t+1e-9;k+=0.05)x.lineTo(gx+k/T*gw,gy-V(k)/VM*gh);
+    x.stroke();
+    x.fillStyle='#ef4444';x.beginPath();x.arc(gx+t/T*gw,gy-V(t)/VM*gh,6,0,7);x.fill();
+  }
+  function loop(ts){
+    if(!run)return;
+    t+=(ts-last)/1000;last=ts;
+    if(t>=T){t=T;run=false;}
+    draw();if(run)requestAnimationFrame(loop);
+  }
+  function start(){run=true;last=performance.now();requestAnimationFrame(loop);}
+  $('aS').onclick=()=>{if(run)return;if(t>=T)t=0;start();};
+  $('aR').onclick=()=>{t=0;draw();if(!run)start();};
+  draw();
+  return{draw};
+})();
+</script>
+</body>
+</html>

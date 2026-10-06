@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Temperatura — 9-sinf fizika</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#eef2f7;--card:#fff;--ink:#12233a;--mut:#4d5f78;--line:#cfd8e4;--hot:#d93a1f;--cold:#1f6fe0;--acc:#0a8f7a;--sim:#0e1a2e}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1220;--card:#16223a;--ink:#e8eef8;--mut:#a9b8cf;--line:#2c3b58;--hot:#ff6a4d;--cold:#5aa2ff;--acc:#35d0b5}}
+:root[data-theme="dark"]{--bg:#0b1220;--card:#16223a;--ink:#e8eef8;--mut:#a9b8cf;--line:#2c3b58;--hot:#ff6a4d;--cold:#5aa2ff;--acc:#35d0b5}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*:before,*:after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Segoe UI",system-ui,sans-serif}
+header{padding:18px 16px 6px;max-width:980px;margin:auto}
+h1{margin:0;font-size:1.5rem}header p{margin:2px 0 0;color:var(--mut)}
+nav{display:flex;gap:8px;max-width:980px;margin:12px auto;padding:0 16px;flex-wrap:wrap}
+nav button{flex:1 1 200px;padding:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;font:600 .95rem inherit;font-family:inherit;cursor:pointer}
+nav button.on{border-color:var(--cold);background:var(--cold);color:#fff}
+main{max-width:980px;margin:auto;padding:0 16px 40px}
+section{display:none}section.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+h2{margin:0 0 8px;font-size:1.2rem}
+.theory p{margin:6px 0;max-width:75ch}
+.formula{display:inline-block;background:var(--bg);border-left:4px solid var(--acc);padding:6px 12px;font-weight:700;margin:4px 0}
+canvas{width:100%;height:auto;display:block;background:var(--sim);border-radius:10px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+@media(max-width:720px){.row{grid-template-columns:1fr}}
+.ctl{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin-top:12px}
+.ctl label{display:flex;flex-direction:column;gap:2px;font-weight:600;flex:1 1 220px}
+input[type=range]{width:100%;accent-color:var(--cold);height:28px}
+.btn{padding:10px 16px;border:0;border-radius:10px;background:var(--acc);color:#fff;font:600 1rem inherit;font-family:inherit;cursor:pointer}
+.btn.alt{background:var(--mut)}
+.btn:focus-visible,nav button:focus-visible,.q button:focus-visible{outline:3px solid var(--hot);outline-offset:2px}
+.read{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+.read div{flex:1 1 140px;padding:8px 12px;border-radius:10px;background:var(--bg);font-weight:700}
+.hot{color:var(--hot)}.cold{color:var(--cold)}
+.eq{display:none;margin-top:10px;padding:10px 14px;background:var(--acc);color:#fff;border-radius:10px;font-weight:700}
+.st{font-size:1.15rem;font-weight:700;margin-top:8px}
+.calc{font-size:1.1rem;font-weight:700;padding:8px 12px;background:var(--bg);border-radius:10px;margin-top:10px}
+.q{margin:10px 0}.q p{margin:0 0 6px;font-weight:600}
+.q button{display:block;width:100%;text-align:left;margin:4px 0;padding:10px 12px;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;cursor:pointer}
+.q button.ok{border-color:var(--acc);background:var(--acc);color:#fff}
+.q button.no{border-color:var(--hot);background:var(--hot);color:#fff}
+.fb{min-height:1.4em;font-weight:600;color:var(--mut)}
+.marks{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+</style></head><body>
+<header><h1>Temperatura</h1><p>9-sinf fizika · 6-mavzu · interaktiv simulyatsiya</p></header>
+<nav id="tabs"><button class="on" data-t="1">1. Issiqlik muvozanati</button><button data-t="2">2. Selsiy shkalasi</button><button data-t="3">3. Absolyut temperatura</button></nav>
+<main>
+<section id="s1" class="on">
+<div class="card theory"><h2>Issiqlik muvozanati</h2>
+<p>Temperaturalari har xil ikki jism tegib turganda, issiq jismdan sovuq jismga energiya (issiqlik) o'tadi. Shu vaqtda issiq jism soviydi, sovuq jism isiydi.</p>
+<p>Ma'lum vaqtdan keyin ikkala jismning temperaturasi tenglashadi va o'zgarmay qoladi. Bu holat <b>issiqlik muvozanati</b> deyiladi.</p>
+<p><b>Temperatura</b> — jism qanchalik qizigani (isiganlik darajasi)ni bildiruvchi kattalik.</p></div>
+<div class="card"><canvas id="c1" width="700" height="300"></canvas>
+<div class="read"><div class="hot">Issiq jism: <span id="r1a"></span></div><div class="cold">Sovuq jism: <span id="r1b"></span></div><div>Vaqt: <span id="r1t">0.0</span> s</div></div>
+<div class="ctl"><label>Issiq jism boshlang'ich temperaturasi: <span id="v1a">80 °C</span><input id="s1a" type="range" min="50" max="100" value="80"></label>
+<label>Sovuq jism boshlang'ich temperaturasi: <span id="v1b">20 °C</span><input id="s1b" type="range" min="0" max="40" value="20"></label>
+<button class="btn" id="touch">Tegizish</button><button class="btn alt" id="rst1">Qayta boshlash</button></div>
+<div class="eq" id="eq1">Issiqlik muvozanati o'rnatildi!</div>
+<canvas id="g1" width="700" height="220" style="margin-top:12px"></canvas></div>
+<div class="card"><h2>Nazorat savollari</h2><div id="q1"></div></div>
+</section>
+
+<section id="s2">
+<div class="card theory"><h2>Temperaturaning Selsiy shkalasi</h2>
+<p>Temperaturani termometr bilan o'lchaymiz. Selsiy shkalasini shved olimi Anders Selsiy taklif qilgan (1742-yil).</p>
+<p>Normal atmosfera bosimida muzning erish temperaturasi <b>0 °C</b>, suvning qaynash temperaturasi <b>100 °C</b> deb olingan. Oradagi masofa 100 teng qismga bo'lingan, har bir qismi 1 gradus Selsiy (1 °C) deyiladi.</p></div>
+<div class="card"><canvas id="c2" width="420" height="360"></canvas>
+<div class="st" id="st2"></div>
+<div class="ctl"><label>Temperatura: <span id="v2"></span><input id="s2" type="range" min="-20" max="120" value="25"></label></div></div>
+<div class="card"><h2>Nazorat savollari</h2><div id="q2"></div></div>
+</section>
+
+<section id="s3">
+<div class="card theory"><h2>Absolyut temperatura</h2>
+<p>Ingliz olimi Lord Kelvin absolyut temperatura shkalasini kiritgan. Temperaturaning eng quyi chegarasi bor — <b>absolyut nol</b>: 0 K = −273 °C (aniqroq −273,15 °C). Bundan past temperatura bo'lmaydi.</p>
+<p>Birligi — kelvin (K). 1 K = 1 °C, ya'ni shkalalarda bir daraja teng. O'tish formulasi: <span class="formula">T = t + 273</span> (T — kelvinda, t — °C da).</p>
+<p>Temperatura pasaygan sari molekulalar sekinlashadi; absolyut nolda issiqlik harakati eng kam bo'ladi. Kelvin shkalasida manfiy temperatura bo'lmaydi.</p></div>
+<div class="card"><div class="row"><canvas id="c3a" width="420" height="370"></canvas><canvas id="c3b" width="360" height="300"></canvas></div>
+<div class="calc" id="calc3"></div><div class="st" id="st3"></div>
+<div class="ctl"><label>Temperatura: <span id="v3"></span><input id="s3" type="range" min="-273" max="200" value="20"></label></div>
+<div class="marks"><button class="btn alt" data-v="-273">0 K · absolyut nol</button><button class="btn alt" data-v="0">273 K · muz eriydi</button><button class="btn alt" data-v="100">373 K · suv qaynaydi</button></div></div>
+<div class="card"><h2>Nazorat savollari</h2><div id="q3"></div></div>
+</section>
+</main>
+<script>
+const $=s=>document.querySelector(s);
+const Q={1:[["Issiq va sovuq jism tegib turganda energiya qaysi tomonga o'tadi?",["Sovuq jismdan issiq jismga","Issiq jismdan sovuq jismga","Energiya o'tmaydi"],1],["Issiqlik muvozanati o'rnatilganda jismlarning temperaturasi qanday bo'ladi?",["Tenglashadi va o'zgarmay qoladi","Issiq jismniki baribir yuqori qoladi","Doim o'zgarib turadi"],0]],
+2:[["Normal atmosfera bosimida suv necha °C da qaynaydi?",["0 °C","50 °C","100 °C"],2],["0 °C bilan 100 °C orasi Selsiy shkalasida nechta teng qismga bo'lingan?",["10 ta","100 ta","273 ta"],1]],
+3:[["25 °C necha kelvinga teng?",["248 K","298 K","−248 K"],1],["Absolyut nol nimaga teng?",["0 K = −273 °C","0 K = 0 °C","0 K = 273 °C"],0]]};
+for(const id in Q){const el=$('#q'+id);Q[id].forEach((q,i)=>{const d=document.createElement('div');d.className='q';d.innerHTML='<p>'+(i+1)+'. '+q[0]+'</p>';const fb=document.createElement('div');fb.className='fb';q[1].forEach((o,j)=>{const b=document.createElement('button');b.textContent=o;b.onclick=()=>{d.querySelectorAll('button').forEach(x=>x.classList.remove('ok','no'));b.classList.add(j==q[2]?'ok':'no');fb.textContent=j==q[2]?"To'g'ri! ✓":"Noto'g'ri, yana urinib ko'ring."};d.append(b)});d.append(fb);el.append(d)})}
+let cur=1;
+document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{cur=+b.dataset.t;document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('on',x==b));document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id=='s'+cur))});
+const mix=k=>{k=Math.max(0,Math.min(1,k));return`rgb(${31+201*k|0},${111-42*k|0},${224-180*k|0})`};
+const mkP=(n,x0,y0,x1,y1)=>Array.from({length:n},()=>{const a=Math.random()*6.283;return{x:x0+Math.random()*(x1-x0),y:y0+Math.random()*(y1-y0),c:Math.cos(a),s:Math.sin(a)}});
+const stepP=(p,v,dt,b)=>{p.x+=p.c*v*dt;p.y+=p.s*v*dt;if(p.x<b[0]){p.x=b[0];p.c=Math.abs(p.c)}if(p.x>b[2]){p.x=b[2];p.c=-Math.abs(p.c)}if(p.y<b[1]){p.y=b[1];p.s=Math.abs(p.s)}if(p.y>b[3]){p.y=b[3];p.s=-Math.abs(p.s)}};
+const dot=(x,p,c,r)=>{x.fillStyle=c;x.beginPath();x.arc(p.x,p.y,r,0,7);x.fill()};
+const txt=(x,s,px,py,c,f,al)=>{x.fillStyle=c;x.font=f||'13px sans-serif';x.textAlign=al||'left';x.fillText(s,px,py)};
+
+/* 1-bo'lim */
+const x1=$('#c1').getContext('2d'),y1=$('#g1').getContext('2d');
+const bA=[26,26,334,274],bB=[366,26,674,274];
+let T1,T2,touch,tm,hist,acc,eq,pA,pB;
+function reset1(){T1=+$('#s1a').value;T2=+$('#s1b').value;touch=false;tm=0;hist=[];acc=0;eq=false;pA=mkP(28,...bA);pB=mkP(28,...bB);$('#eq1').style.display='none';$('#touch').disabled=false}
+$('#s1a').oninput=e=>{$('#v1a').textContent=e.target.value+' °C';reset1()};
+$('#s1b').oninput=e=>{$('#v1b').textContent=e.target.value+' °C';reset1()};
+$('#touch').onclick=()=>{touch=true;$('#touch').disabled=true};
+$('#rst1').onclick=reset1;
+function sim1(dt){
+ if(touch&&!eq){const d=T1-T2;T1-=.25*d*dt;T2+=.25*d*dt;tm+=dt;acc+=dt;
+  if(acc>=.1){acc=0;hist.push([T1,T2])}
+  if(T1-T2<.3){T1=T2=(T1+T2)/2;eq=true;hist.push([T1,T2]);$('#eq1').style.display='block'}}
+ pA.forEach(p=>stepP(p,30+3.4*T1,dt,bA));pB.forEach(p=>stepP(p,30+3.4*T2,dt,bB));
+ const x=x1;x.clearRect(0,0,700,300);
+ x.lineWidth=3;x.strokeStyle=mix(T1/100);x.strokeRect(20,20,320,260);x.strokeStyle=mix(T2/100);x.strokeRect(360,20,320,260);
+ pA.forEach(p=>dot(x,p,mix(T1/100),5));pB.forEach(p=>dot(x,p,mix(T2/100),5));
+ if(touch){x.fillStyle='#ffd166';x.fillRect(340,20,20,260);txt(x,'→',350,155,'#0e1a2e','bold 22px sans-serif','center')}
+ txt(x,T1.toFixed(1)+' °C',180,16,'#fff','bold 14px sans-serif','center');txt(x,T2.toFixed(1)+' °C',520,16,'#fff','bold 14px sans-serif','center');
+ $('#r1a').textContent=T1.toFixed(1)+' °C';$('#r1b').textContent=T2.toFixed(1)+' °C';$('#r1t').textContent=tm.toFixed(1);
+ const g=y1;g.clearRect(0,0,700,220);g.strokeStyle='#4a5b78';g.lineWidth=1;g.beginPath();g.moveTo(40,10);g.lineTo(40,190);g.lineTo(690,190);g.stroke();
+ for(let v=0;v<=100;v+=25){const y=190-v*1.7;txt(g,v,34,y+4,'#9fb0cc','11px sans-serif','right');g.strokeStyle='#22314d';g.beginPath();g.moveTo(40,y);g.lineTo(690,y);g.stroke()}
+ txt(g,'t, s (20 s gacha)',690,212,'#9fb0cc','11px sans-serif','right');txt(g,'°C',8,14,'#9fb0cc','11px sans-serif');
+ [[0,'#ff6a4d'],[1,'#5aa2ff']].forEach(([k,c])=>{g.strokeStyle=c;g.lineWidth=3;g.beginPath();hist.forEach((h,i)=>{const X=40+i*.1/20*650,Y=190-h[k]*1.7;i?g.lineTo(X,Y):g.moveTo(X,Y)});g.stroke()})}
+reset1();
+
+/* 2-bo'lim */
+const x2=$('#c2').getContext('2d');
+const Y2=t=>300-(t+20)*270/140;
+function sim2(now){
+ const t=+$('#s2').value,x=x2;x.clearRect(0,0,420,360);
+ for(let v=-20;v<=120;v+=20){const y=Y2(v),sp=v==0||v==100;
+  x.strokeStyle=sp?'#ffd166':'#4a5b78';x.lineWidth=sp?3:1;x.setLineDash(sp?[6,4]:[]);x.beginPath();x.moveTo(sp?30:52,y);x.lineTo(sp?190:60,y);x.stroke();x.setLineDash([]);
+  txt(x,v+' °C',sp?8:48,y+(sp?-5:4),sp?'#ffd166':'#9fb0cc',sp?'bold 13px sans-serif':'11px sans-serif',sp?'left':'right')}
+ x.fillStyle='#e8eef8';x.beginPath();x.roundRect(62,24,16,280,8);x.fill();x.beginPath();x.arc(70,318,20,0,7);x.fill();
+ x.fillStyle='#d93a1f';x.beginPath();x.arc(70,318,15,0,7);x.fill();x.fillRect(66,Y2(t),8,318-Y2(t));
+ txt(x,t+' °C',70,354,'#fff','bold 15px sans-serif','center');
+ const L=200,R=390,B=335,top=130,wl=t>100?250:200;
+ if(t>=0){x.fillStyle='rgba(60,150,230,.55)';x.fillRect(L+2,wl,R-L-4,B-wl-2)}
+ if(t<0)for(const[a,b]of[[212,285],[268,285],[324,285],[240,232],[296,232]])ice(x,a,b,50);
+ else if(t==0){for(const a of[225,285,335])ice(x,a,wl-18,36);for(let i=0;i<3;i++){const p=(now*.7+i/3)%1;x.fillStyle='rgba(120,190,255,.9)';x.beginPath();x.arc(235+i*50,wl+2+p*40,3,0,7);x.fill()}}
+ if(t>=100){for(let i=0;i<(t>100?18:10);i++){const p=(now*.6+i*.137)%1,bx=L+14+(i*53%160),by=B-10-p*(B-wl-10);x.strokeStyle='rgba(255,255,255,.8)';x.lineWidth=1.5;x.beginPath();x.arc(bx,by,3+p*4,0,7);x.stroke()}
+  for(let i=0;i<(t>100?16:9);i++){const p=(now*.35+i*.11)%1;x.fillStyle=`rgba(230,240,255,${.5*(1-p)})`;x.beginPath();x.arc(L+20+(i*41%150)+Math.sin(now+i)*8,top-p*90,8+p*14,0,7);x.fill()}}
+ x.strokeStyle='#e8eef8';x.lineWidth=4;x.beginPath();x.moveTo(L,top);x.lineTo(L,B);x.lineTo(R,B);x.lineTo(R,top);x.stroke();
+ const s=t<0?['Muz (qattiq holat)','#8fd3ff']:t==0?['Muz erimoqda (0 °C)','#8fd3ff']:t<100?['Suyuq suv','#5aa2ff']:t==100?['Qaynayapti (100 °C)','#ff6a4d']:["Bug' (gaz holat)",'#ff6a4d'];
+ $('#st2').textContent='Holat: '+s[0];$('#v2').textContent=t+' °C'}
+function ice(x,a,b,s){x.fillStyle='rgba(200,236,255,.92)';x.strokeStyle='#fff';x.lineWidth=2;x.beginPath();x.roundRect(a,b,s,s,6);x.fill();x.stroke()}
+
+/* 3-bo'lim */
+const xa=$('#c3a').getContext('2d'),xb=$('#c3b').getContext('2d');
+const Y3=t=>320-(t+273)*280/473;let pC=mkP(40,10,10,350,290);
+function sim3(dt){
+ const t=+$('#s3').value,T=t+273,x=xa;x.clearRect(0,0,420,370);
+ [[-273,'0 K','absolyut nol'],[-200],[-100],[0,'273 K','muz eriydi'],[100,'373 K','suv qaynaydi'],[200]].forEach(([v,k,n])=>{const y=Y3(v),sp=!!n;
+  x.strokeStyle=sp?'#ffd166':'#4a5b78';x.lineWidth=sp?2.5:1;x.setLineDash(sp?[5,4]:[]);x.beginPath();x.moveTo(sp?40:88,y);x.lineTo(sp?230:112,y);x.stroke();x.setLineDash([]);
+  txt(x,v+' °C',84,y+4,sp?'#ffd166':'#9fb0cc',sp?'bold 12px sans-serif':'11px sans-serif','right');
+  txt(x,(v+273)+' K'+(n?' · '+n:''),238,y+4,sp?'#ffd166':'#9fb0cc',sp?'bold 12px sans-serif':'11px sans-serif')});
+ [[100,'°C','#ff6a4d'],[210,'K','#35d0b5']].forEach(([cx,u,c])=>{x.fillStyle='#e8eef8';x.beginPath();x.roundRect(cx-8,36,16,290,8);x.fill();x.beginPath();x.arc(cx,340,20,0,7);x.fill();x.fillStyle=c;x.beginPath();x.arc(cx,340,15,0,7);x.fill();x.fillRect(cx-4,Y3(t),8,340-Y3(t));txt(x,u,cx,26,'#fff','bold 14px sans-serif','center')});
+ const b=xb;b.clearRect(0,0,360,300);b.strokeStyle=mix(T/473);b.lineWidth=3;b.strokeRect(4,4,352,292);
+ const v=T<=0?1.5:14*Math.sqrt(T);pC.forEach(p=>{stepP(p,v,dt,[10,10,350,290]);dot(b,p,mix(T/473),6)});
+ $('#calc3').textContent=`T = t + 273 = ${t<0?'('+t+')':t} + 273 = ${T} K`;$('#v3').textContent=t+' °C = '+T+' K';
+ $('#st3').textContent=T<=0?'Absolyut nol: issiqlik harakati eng kam.':T<273?'Molekulalar sekin harakatlanadi.':T<373?'Molekulalar o\'rtacha tezlikda harakatlanadi.':'Molekulalar juda tez harakatlanadi.'}
+document.querySelectorAll('.marks button').forEach(b=>b.onclick=()=>{$('#s3').value=b.dataset.v});
+
+let last=performance.now();
+(function loop(n){const dt=Math.min(.05,(n-last)/1000);last=n;if(cur==1)sim1(dt);else if(cur==2)sim2(n/1000);else sim3(dt);requestAnimationFrame(loop)})(last);
+</script></body></html>

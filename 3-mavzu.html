@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Modda miqdori — interaktiv dars</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f3f6fb;--card:#fff;--tx:#13203a;--mu:#5a6a85;--ac:#2563eb;--bd:#d9e2f0;--cv:#f7fbff;--ok:#16a34a;--no:#dc2626}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1424;--card:#151f36;--tx:#e8eefc;--mu:#9db0d0;--ac:#60a5fa;--bd:#28365a;--cv:#0f1830}}
+:root[data-theme="dark"]{--bg:#0d1424;--card:#151f36;--tx:#e8eefc;--mu:#9db0d0;--ac:#60a5fa;--bd:#28365a;--cv:#0f1830}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.w{max-width:880px;margin:0 auto;padding:12px}
+h1{font-size:1.25rem;margin:4px 0 8px}
+h2{font-size:1.1rem;margin:0 0 6px;color:var(--ac)}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:6px 0 10px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+.tabs button{flex:1;white-space:nowrap;padding:10px 12px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:12px;font:600 .9rem inherit;font-family:inherit;cursor:pointer}
+.tabs button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.p{display:none;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px}
+.p.on{display:block}
+.t{color:var(--mu);margin:0 0 8px}
+.f{text-align:center;font-size:1.15rem;font-weight:700;background:var(--cv);border:1px dashed var(--ac);border-radius:10px;padding:8px;margin:8px 0}
+canvas{width:100%;height:240px;display:block;background:var(--cv);border:1px solid var(--bd);border-radius:12px}
+input[type=range]{width:100%;accent-color:var(--ac)}
+input[type=number],select{width:100%;padding:9px;border-radius:10px;border:1px solid var(--bd);background:var(--cv);color:var(--tx);font:inherit}
+button.b{background:var(--ac);color:#fff;border:0;border-radius:10px;padding:10px 16px;font:600 1rem inherit;font-family:inherit;cursor:pointer;margin-top:8px}
+.res{background:var(--cv);border-left:4px solid var(--ac);border-radius:8px;padding:10px;margin-top:10px;overflow-x:auto}
+.res b{color:var(--ac)}
+.g3{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.g3 canvas{height:150px}
+.g3 div.c{text-align:center;font-size:.92rem}
+.two{display:grid;gap:10px;grid-template-columns:1fr 1fr}
+.two canvas{height:200px}
+.two label,.lb{font-size:.88rem;color:var(--mu);display:block;margin-top:6px}
+.q{margin:12px 0;padding:10px;border:1px solid var(--bd);border-radius:10px}
+.q label{display:block;padding:6px 8px;border-radius:8px;cursor:pointer}
+.q label.ok{background:rgba(22,163,74,.2)}.q label.no{background:rgba(220,38,38,.2)}
+@media(max-width:520px){.two{gap:6px}.two label{font-size:.78rem}}
+</style>
+</head>
+<body>
+<div class="w">
+<h1>🧪 Fizika 9-sinf · 3-mavzu: Modda miqdori</h1>
+<div class="tabs" id="tabs">
+<button class="on">Modda miqdori</button><button>Avogadro</button><button>Molyar massa</button><button>Konsentratsiya</button>
+</div>
+
+<!-- 1-BO'LIM -->
+<section class="p on">
+<h2>1. Modda miqdori</h2>
+<p class="t">Modda miqdori (ν) — moddadagi zarralar (atom, molekula) sonini ifodalovchi fizik kattalik. Uning birligi — mol. Zarralar qancha ko'p bo'lsa, modda miqdori ham shuncha katta.</p>
+<div class="f">ν = N / N<sub>A</sub></div>
+<canvas id="c1"></canvas>
+<label class="lb">Modda miqdori ν: <b id="v1"></b></label>
+<input type="range" id="s1" min="0.5" max="5" step="0.5" value="2">
+<div class="res" id="r1"></div>
+</section>
+
+<!-- 2-BO'LIM -->
+<section class="p">
+<h2>2. Avogadro doimiysi</h2>
+<p class="t">Istalgan moddaning 1 molida bir xil miqdordagi zarra bor. Bu son Avogadro doimiysi deyiladi: N<sub>A</sub> = 6,02·10²³ 1/mol.</p>
+<div class="g3">
+<div class="c"><canvas id="cw"></canvas><b>1 mol suv (H₂O)</b><br>m = 18 g<br>6,02·10²³ ta molekula</div>
+<div class="c"><canvas id="cc"></canvas><b>1 mol uglerod (C)</b><br>m = 12 g<br>6,02·10²³ ta atom</div>
+<div class="c"><canvas id="co"></canvas><b>1 mol kislorod (O₂)</b><br>m = 32 g<br>6,02·10²³ ta molekula</div>
+</div>
+<p class="lb">Kartochkalardagi zarralar kattalashib-kichrayib ko'rsatiladi (zoom in/out).</p>
+<div class="f">N = ν · N<sub>A</sub></div>
+<label class="lb">Modda miqdori ν (mol):</label>
+<input type="number" id="n2" value="1.5" min="0" step="any">
+<button class="b" id="b2">Hisoblash</button>
+<div class="res" id="r2"></div>
+</section>
+
+<!-- 3-BO'LIM -->
+<section class="p">
+<h2>3. Molyar massa va zarralar soni</h2>
+<p class="t">Molyar massa — 1 mol moddaning massasi: M = m / ν, birligi g/mol. U son jihatdan nisbiy molekulyar massaga teng. Masalan: M(H₂O) = 18, M(CO₂) = 44, M(O₂) = 32, M(C) = 12 g/mol.</p>
+<div class="f">M = m / ν &nbsp;·&nbsp; ν = m / M &nbsp;·&nbsp; N = (m / M) · N<sub>A</sub></div>
+<select id="sel"></select>
+<canvas id="c3" style="margin-top:8px;height:230px"></canvas>
+<label class="lb">Massa m: <b id="v3"></b></label>
+<input type="range" id="s3" min="1" max="200" step="1" value="50">
+<div class="res" id="r3"></div>
+</section>
+
+<!-- 4-BO'LIM -->
+<section class="p">
+<h2>4. Molekulalar konsentratsiyasi</h2>
+<p class="t">Konsentratsiya — birlik hajmdagi molekulalar soni: n = N / V. Uning birligi 1/m³. Hajm kichraysa, zarralar zichlashadi va n ortadi.</p>
+<div class="f">n = N / V</div>
+<label class="lb"><input type="checkbox" id="cmp" checked> Solishtirish rejimi (ikkita idish)</label>
+<div class="two" id="two"><div id="bx1"></div><div id="bx2"></div></div>
+<div class="res" id="r4"></div>
+</section>
+
+<!-- TEST -->
+<div class="p on" style="margin-top:12px;display:block">
+<h2>📝 Test (5 ta savol)</h2>
+<div id="quiz"></div>
+<button class="b" id="qb">Natijani ko'rsatish</button>
+<div class="res" id="qr" style="display:none"></div>
+</div>
+</div>
+
+<script>
+// ===== Yordamchi funksiyalar =====
+const $ = id => document.getElementById(id);
+const NA = 6.02e23;
+// Ilmiy yozuv: 6,02·10²³
+function sci(x){
+  if(!x) return "0";
+  let e = Math.floor(Math.log10(Math.abs(x))), m = +(x / 10**e).toFixed(2);
+  if(m >= 10){ m /= 10; e++; }
+  const sup = String(e).replace(/-/g,'⁻').replace(/\d/g, d => '⁰¹²³⁴⁵⁶⁷⁸⁹'[d]);
+  return String(m).replace('.',',') + '·10' + sup;
+}
+const fx = (x,d=2) => x.toFixed(d).replace('.',',');
+
+// ===== Tablar =====
+const tabs = [...document.querySelectorAll('#tabs button')], panels = [...document.querySelectorAll('section.p')];
+tabs.forEach((b,i) => b.onclick = () => {
+  tabs.forEach((t,j) => t.classList.toggle('on', i===j));
+  panels.forEach((p,j) => p.classList.toggle('on', i===j));
+});
+
+// ===== Umumiy animatsiya sikli =====
+const draws = []; let T = 0, last = performance.now();
+function canvasLoop(cv, fn){
+  draws.push(dt => {
+    if(!cv.offsetParent) return; // yashirin bo'lsa chizmaymiz
+    const d = devicePixelRatio || 1, r = cv.getBoundingClientRect();
+    if(cv.width !== Math.round(r.width*d) || cv.height !== Math.round(r.height*d)){
+      cv.width = Math.round(r.width*d); cv.height = Math.round(r.height*d);
+    }
+    const c = cv.getContext('2d'); c.setTransform(d,0,0,d,0,0); c.clearRect(0,0,r.width,r.height);
+    fn(c, r.width, r.height, dt);
+  });
+}
+(function loop(t){
+  const dt = Math.min((t-last)/1000, .05); last = t; T += dt;
+  draws.forEach(f => f(dt)); requestAnimationFrame(loop);
+})(last);
+
+// Idish ichida harakatlanuvchi zarralar (koordinatalar 0..1 oralig'ida)
+function gas(cv, getN, getBox, h0, hr){
+  const ps = [];
+  canvasLoop(cv, (c,W,H,dt) => {
+    const n = getN();
+    while(ps.length < n) ps.push({x:Math.random(),y:Math.random(),vx:(Math.random()-.5)*.6,vy:(Math.random()-.5)*.6,h:h0+Math.random()*hr});
+    if(ps.length > n) ps.length = n;
+    const b = getBox(W,H);
+    c.strokeStyle = '#2563eb'; c.lineWidth = 2; c.strokeRect(b.x,b.y,b.w,b.h);
+    for(const p of ps){
+      p.x += p.vx*dt; p.y += p.vy*dt;
+      if(p.x<0||p.x>1){ p.vx*=-1; p.x=Math.min(1,Math.max(0,p.x)); }
+      if(p.y<0||p.y>1){ p.vy*=-1; p.y=Math.min(1,Math.max(0,p.y)); }
+      c.fillStyle = `hsl(${p.h} 80% 55%)`;
+      c.beginPath(); c.arc(b.x+p.x*b.w, b.y+p.y*b.h, 4, 0, 7); c.fill();
+    }
+  });
+}
+
+// ===== 1-bo'lim =====
+const nuVis = () => Math.round(+$('s1').value * 20); // 1 mol ≈ 20 ta zarra (vizual masshtab)
+gas($('c1'), nuVis, (W,H) => ({x:8,y:8,w:W-16,h:H-16}), 0, 360);
+function upd1(){
+  const nu = +$('s1').value;
+  $('v1').textContent = fx(nu,1) + ' mol';
+  $('r1').innerHTML = `ν = <b>${fx(nu,1)} mol</b><br>Ekranda: <b>${nuVis()} ta</b> zarra (1 mol ≈ 20 ta, vizual masshtab)<br>Haqiqatda: N = ν · N<sub>A</sub> = ${fx(nu,1)} · 6,02·10²³ = <b>${sci(nu*NA)} ta</b>`;
+}
+$('s1').oninput = upd1; upd1();
+
+// ===== 2-bo'lim: zarralar kartochkalari =====
+function dot(c,x,y,r,col){ c.fillStyle = col; c.beginPath(); c.arc(x,y,r,0,7); c.fill(); }
+function mol(c,k,x,y,r){
+  if(k==='w'){ dot(c,x,y,r,'#ef4444'); dot(c,x-r*1.1,y+r*.8,r*.6,'#60a5fa'); dot(c,x+r*1.1,y+r*.8,r*.6,'#60a5fa'); }
+  else if(k==='c'){ dot(c,x,y,r,'#64748b'); }
+  else { dot(c,x-r*.8,y,r*.9,'#ef4444'); dot(c,x+r*.8,y,r*.9,'#ef4444'); }
+}
+[['cw','w'],['cc','c'],['co','o']].forEach(([id,k]) => {
+  canvasLoop($(id), (c,W,H) => {
+    const s = .35 + 1.15*(.5+.5*Math.sin(T*.9)); // zoom koeffitsiyenti
+    const sp = 16*s;
+    for(let i=-12;i<=12;i++) for(let j=-12;j<=12;j++){
+      const x = W/2+i*sp, y = H/2+j*sp;
+      if(x<-10||x>W+10||y<-10||y>H+10) continue;
+      mol(c,k,x,y,3.6*s);
+    }
+  });
+});
+function calc2(){
+  const nu = parseFloat($('n2').value) || 0;
+  $('r2').innerHTML = `N = ν · N<sub>A</sub><br>N = ${fx(nu,2)} mol · 6,02·10²³ 1/mol = <b>${sci(nu*NA)} ta</b> zarra`;
+}
+$('n2').oninput = calc2; $('b2').onclick = calc2; calc2();
+
+// ===== 3-bo'lim: molyar massa va tarozi =====
+const subs = [
+  {n:'Suv (H₂O)', M:18, c:'#38bdf8', u:'molekula'},
+  {n:'Karbonat angidrid (CO₂)', M:44, c:'#94a3b8', u:'molekula'},
+  {n:'Kislorod (O₂)', M:32, c:'#f87171', u:'molekula'},
+  {n:'Uglerod (C)', M:12, c:'#334155', u:'atom'}
+];
+subs.forEach((s,i) => $('sel').add(new Option(`${s.n} — M = ${s.M} g/mol`, i)));
+let ang = 0;
+canvasLoop($('c3'), (c,W,H,dt) => {
+  const s = subs[$('sel').value], m = +$('s3').value;
+  ang += (-Math.min(m/200,1)*.3 - ang) * Math.min(1, dt*6); // tarozi yumshoq og'adi
+  const px = W/2, py = 60, L = Math.min(W*.36,150);
+  c.strokeStyle = '#64748b'; c.lineWidth = 4; c.lineCap = 'round';
+  c.beginPath(); c.moveTo(px,py); c.lineTo(px,H-14); c.moveTo(px-50,H-14); c.lineTo(px+50,H-14); c.stroke();
+  const ex = L*Math.cos(ang), ey = L*Math.sin(ang);
+  c.beginPath(); c.moveTo(px-ex,py-ey); c.lineTo(px+ex,py+ey); c.stroke();
+  dot(c,px,py,6,'#2563eb');
+  [[-1,true],[1,false]].forEach(([sg,left]) => {
+    const x = px+sg*ex, y = py+sg*ey;
+    c.lineWidth = 1.5; c.beginPath(); c.moveTo(x,y); c.lineTo(x,y+60); c.stroke();
+    c.lineWidth = 4; c.beginPath(); c.moveTo(x-38,y+60); c.lineTo(x+38,y+60); c.stroke();
+    if(left){ const r = 8+m/200*22; dot(c,x,y+60-r-2,r,s.c); }
+  });
+  c.fillStyle = '#64748b'; c.font = '600 15px system-ui'; c.textAlign = 'center';
+  c.fillText(`m = ${m} g`, px-ex, py-ey+90);
+});
+function upd3(){
+  const s = subs[$('sel').value], m = +$('s3').value, nu = m/s.M, N = nu*NA;
+  $('v3').textContent = m + ' g';
+  $('r3').innerHTML = `<b>1-qadam.</b> Molyar massa: M = ${s.M} g/mol<br>
+  <b>2-qadam.</b> ν = m / M = ${m} / ${s.M} = <b>${fx(nu)} mol</b><br>
+  <b>3-qadam.</b> N = ν · N<sub>A</sub> = ${fx(nu)} · 6,02·10²³ = <b>${sci(N)} ta</b> ${s.u}`;
+}
+$('sel').onchange = $('s3').oninput = upd3; upd3();
+
+// ===== 4-bo'lim: konsentratsiya =====
+const bxs = [];
+function makeBox(id, title, N0, V0, hue){
+  const el = $(id);
+  el.innerHTML = `<b>${title}</b><canvas></canvas><label>N = <b class="vn"></b> ta</label><input type="range" class="sn" min="1" max="100" value="${N0}"><label>V = <b class="vv"></b></label><input type="range" class="sv" min="1" max="100" value="${V0}"><div class="nr"></div>`;
+  const st = {N:N0, V:V0}, cv = el.querySelector('canvas');
+  // N slayderi: 1 birlik = 10²² ta zarra; V slayderi: litr (1 L = 10⁻³ m³)
+  gas(cv, () => Math.max(1,Math.round(st.N/2)), (W,H) => {
+    const side = (Math.min(W,H)-16) * Math.max(.2, Math.cbrt(st.V/100));
+    return {x:(W-side)/2, y:(H-side)/2, w:side, h:side};
+  }, hue, 40);
+  const upd = () => {
+    st.N = +el.querySelector('.sn').value; st.V = +el.querySelector('.sv').value;
+    st.n = st.N*1e22 / (st.V*1e-3);
+    el.querySelector('.vn').textContent = sci(st.N*1e22);
+    el.querySelector('.vv').textContent = st.V + ' L = ' + sci(st.V*1e-3) + ' m³';
+    el.querySelector('.nr').innerHTML = `n = N / V<br><b>${sci(st.n)} 1/m³</b>`;
+    upd4();
+  };
+  el.querySelectorAll('input').forEach(i => i.oninput = upd);
+  bxs.push({st, upd, el});
+}
+function upd4(){
+  if(bxs.length < 2) return;
+  const a = bxs[0].st, b = bxs[1].st;
+  let t = `n<sub>A</sub> = ${sci(a.n)} 1/m³`;
+  if($('cmp').checked){
+    const r = a.n/b.n;
+    t += `<br>n<sub>B</sub> = ${sci(b.n)} 1/m³<br>` + (Math.abs(r-1)<.005 ? '<b>Konsentratsiyalar teng.</b>' : `A idishda konsentratsiya B ga qaraganda <b>${fx(r>1?r:1/r)} marta ${r>1?'katta':'kichik'}</b>.`);
+  }
+  $('r4').innerHTML = t;
+}
+makeBox('bx1','A idish',40,50,200); makeBox('bx2','B idish',40,100,20);
+bxs.forEach(b => b.upd());
+$('cmp').onchange = () => { $('bx2').style.display = $('cmp').checked ? '' : 'none'; $('two').style.gridTemplateColumns = $('cmp').checked ? '' : '1fr'; upd4(); };
+
+// ===== Test =====
+const Q = [
+  {q:`Modda miqdorining birligi qaysi?`, o:[`kg`,`mol`,`g/mol`,`1/m³`], a:1},
+  {q:`Avogadro doimiysi qiymati qaysi?`, o:[`6,02·10²³ 1/mol`,`6,02·10²³ mol`,`6,02·10²⁶ 1/mol`,`1,66·10⁻²⁷ kg`], a:0},
+  {q:`2 mol suvda nechta molekula bor?`, o:[`6,02·10²³`,`1,204·10²⁴`,`3,01·10²³`,`3,6·10²⁴`], a:1},
+  {q:`88 g CO₂ (M = 44 g/mol) necha mol bo'ladi?`, o:[`1 mol`,`2 mol`,`4 mol`,`0,5 mol`], a:1},
+  {q:`Zarralar soni o'zgarmasdan hajm 2 marta kamaytirilsa, konsentratsiya n qanday o'zgaradi?`, o:[`2 marta ortadi`,`2 marta kamayadi`,`o'zgarmaydi`,`4 marta ortadi`], a:0}
+];
+$('quiz').innerHTML = Q.map((x,i) => `<div class="q"><b>${i+1}. ${x.q}</b>` + x.o.map((o,j) => `<label><input type="radio" name="q${i}" value="${j}"> ${o}</label>`).join('') + `</div>`).join('');
+$('qb').onclick = () => {
+  let sc = 0;
+  Q.forEach((x,i) => {
+    const labs = document.querySelectorAll(`input[name=q${i}]`);
+    const ch = [...labs].find(l => l.checked);
+    labs.forEach((l,j) => { l.parentElement.className = j===x.a ? 'ok' : (ch===l ? 'no' : ''); });
+    if(ch && +ch.value === x.a) sc++;
+  });
+  const cm = sc===5 ? 'Ajoyib! 🎉' : sc>=3 ? 'Yaxshi, yana takrorlang.' : 'Nazariyani qayta o\'qib chiqing.';
+  $('qr').style.display = 'block';
+  $('qr').innerHTML = `Natija: <b>${sc} / 5</b> — ${cm}`;
+};
+</script>
+</body>
+</html>

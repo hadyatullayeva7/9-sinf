@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modda tuzilishining molekulyar-kinetik nazariyasi (MKN)</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm 12mm;
+            background-color: #f8fafc;
+        }
+        
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-size: 10.5pt;
+            line-height: 1.5;
+            color: #1e293b;
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: #ffffff;
+            padding: 24px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 18pt;
+            margin: 0 0 6px 0;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .header p {
+            font-size: 11pt;
+            margin: 0;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .meta-info {
+            display: table;
+            width: 100%;
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px 16px;
+        }
+
+        .meta-item {
+            display: table-cell;
+            vertical-align: middle;
+            font-size: 9.5pt;
+            color: #475569;
+        }
+
+        .meta-item strong {
+            color: #0f172a;
+        }
+
+        .section {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            font-size: 13pt;
+            color: #1e3a8a;
+            margin-top: 0;
+            margin-bottom: 12px;
+            padding-left: 10px;
+            border-left: 4px solid #3b82f6;
+        }
+
+        h3 {
+            font-size: 11pt;
+            color: #0f172a;
+            margin-top: 14px;
+            margin-bottom: 8px;
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin-top: 0;
+            margin-bottom: 12px;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        /* Canvas & Simulation Box */
+        .sim-container {
+            background-color: #0f172a;
+            border-radius: 10px;
+            padding: 16px;
+            margin: 16px 0;
+            color: #f8fafc;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .sim-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 8px;
+        }
+
+        .sim-title {
+            font-size: 11pt;
+            font-weight: 600;
+            color: #38bdf8;
+            margin: 0;
+        }
+
+        .sim-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            margin-top: 12px;
+            background: #1e293b;
+            padding: 10px 14px;
+            border-radius: 8px;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 9pt;
+            color: #94a3b8;
+        }
+
+        .control-group label {
+            font-weight: 500;
+            color: #e2e8f0;
+        }
+
+        input[type="range"] {
+            accent-color: #38bdf8;
+            cursor: pointer;
+        }
+
+        button {
+            background-color: #0284c7;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 9pt;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #0369a1;
+        }
+
+        button.active {
+            background-color: #10b981;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 220px;
+            background-color: #020617;
+            border-radius: 6px;
+            border: 1px solid #1e293b;
+        }
+
+        .stat-badge {
+            background: #1e293b;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 9pt;
+            color: #38bdf8;
+        }
+
+        /* Highlight Boxes */
+        .box {
+            border-radius: 6px;
+            padding: 12px 14px;
+            margin: 12px 0;
+            font-size: 10pt;
+        }
+
+        .box-anim {
+            background-color: #faf5ff;
+            border: 1px solid #e9d5ff;
+            color: #6b21a8;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 8.5pt;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .badge-anim {
+            background-color: #f3e8ff;
+            color: #6b21a8;
+        }
+
+        .step-list {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .step-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 6px;
+        }
+
+        .step-list li::before {
+            content: "•";
+            position: absolute;
+            left: 6px;
+            color: #9333ea;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 8.5pt;
+            color: #94a3b8;
+            margin-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Modda tuzilishining molekulyar-kinetik nazariyasi (MKN)</h1>
+        <p>9-sinf Fizika fani bo‘yicha interaktiv dars ishlanmasi va jonli simulyatsiyalar</p>
+    </div>
+
+    <div class="meta-info">
+        <div class="meta-item"><strong>Fan:</strong> Fizika</div>
+        <div class="meta-item" style="text-align: center;"><strong>Sinf:</strong> 9-sinf</div>
+        <div class="meta-item" style="text-align: right;"><strong>Yo‘nalish:</strong> Interaktiv Ta'lim / Simulyatsiya</div>
+    </div>
+
+    <!-- REJA 1 -->
+    <div class="section">
+        <h2>1. MKN tushunchasi, uning mohiyati va asosiy maqsadi</h2>
+        <p><strong>Modda tuzilishining molekulyar-kinetik nazariyasi (MKN)</strong> — barcha moddalar mikroskopik zarrachalar (atomlar va molekulalar)dan tashkil topgani hamda bu zarrachalarning harakati va o‘zaro ta'siriga asoslanib moddalarning xossalarini tushuntiruvchi fizik nazariyadir.</p>
+        
+        <ul>
+            <li><strong>Mohiyati:</strong> Moddaning makroskopik xossalarini (bosim, harorat, hajm) uning mikroskopik zarrachalari harakati va o‘zaro ta'siri orqali tushuntirish.</li>
+            <li><strong>Asosiy maqsadi:</strong> Zarrachalarning harakat qonuniyatlarini o‘rganish orqali gaz, suyuqlik va qattiq jismlarning issiqlik hodisalari hamda agregat holatlarini asoslab berish.</li>
+        </ul>
+
+        <!-- Canvas 1: Gaz molekulalari va Harorat -->
+        <div class="sim-container">
+            <div class="sim-header">
+                <span class="sim-title">⚡ Interaktiv Simulyatsiya: Gaz molekulalarining harorati va bosimi</span>
+                <div>Bosim: <span id="phet1-pressure" class="stat-badge">1.0 atm</span></div>
+            </div>
+            <canvas id="canvas1"></canvas>
+            <div class="sim-controls">
+                <div class="control-group">
+                    <label for="temp1">Harorat (T):</label>
+                    <input type="range" id="temp1" min="100" max="800" value="300">
+                    <span id="temp1-val" class="stat-badge">300 K</span>
+                </div>
+                <div class="control-group">
+                    <label for="count1">Zarrachalar soni:</label>
+                    <input type="range" id="count1" min="20" max="150" value="60">
+                    <span id="count1-val" class="stat-badge">60</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-anim">
+            <span class="badge badge-anim">2D / 3D Animatsiya Stsenariysi (Kadrma-kadr)</span>
+            <ul class="step-list">
+                <li><strong>1-kadr:</strong> Katta ko‘rinishdagi suv to‘la idish (stakan).</li>
+                <li><strong>2-kadr:</strong> Kamera stakanga yaqinlashadi (ZOOM IN) va atom darajasiga o‘tadi.</li>
+                <li><strong>3-kadr:</strong> Bir-biri bilan to‘qnashib, betartib harakat qilayotgan suv molekulalari namoyon bo‘ladi.</li>
+                <li><strong>4-kadr:</strong> Ekranda matn paydo bo‘ladi: <em>"Har bir modda doimiy harakatdagi zarrachalardan iborat!"</em></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- REJA 2 -->
+    <div class="section">
+        <h2>2. Molekulyar-kinetik nazariyaning tajribalarda isbotlangan 3 ta asosiy qoidasi</h2>
+        <p>MKN uchta tajribada to‘liq o‘z isbotini topgan tayanch qoidaga asoslanadi:</p>
+        
+        <ol>
+            <li><strong>Barcha moddalar zarrachalar (atom va molekulalar)dan tashkil topgan.</strong> Zarrachalar orasida bo‘shliqlar mavjud.<br><em>(Isboti: Diffuziya hodisasi, moddalarning erishi va aralashishi).</em></li>
+            <li><strong>Molekulalar doimiy, uzluksiz va betartib (tartibsiz) harakatda bo‘ladi.</strong> Harakat tezligi haroratga bog‘liq.<br><em>(Isboti: Hidsizlanish, diffuziya, Braun harakati).</em></li>
+            <li><strong>Molekulalar o‘zaro ta'sirlashadi (tortishadi va itarishadi).</strong> Molekulalar orasidagi masofaga qarab tortishish va itarishish kuchlari namoyon bo‘ladi.<br><em>(Isboti: Qattiq jismlarning shaklini saqlashi, elastiklik).</em></li>
+        </ol>
+
+        <!-- Canvas 2: Agregat holatlar va Diffuziya -->
+        <div class="sim-container">
+            <div class="sim-header">
+                <span class="sim-title">🧪 Interaktiv Simulyatsiya: Agregat Holatlar va Diffuziya</span>
+                <span id="state2-title" class="stat-badge">Gaz Holati</span>
+            </div>
+            <canvas id="canvas2"></canvas>
+            <div class="sim-controls">
+                <div class="control-group">
+                    <button onclick="setState2('solid')">Qattiq Jism</button>
+                    <button onclick="setState2('liquid')">Suyuqlik</button>
+                    <button onclick="setState2('gas')" class="active" id="btn-gas">Gaz</button>
+                    <button onclick="setState2('diffuse')">Diffuziya (Aralashuv)</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-anim">
+            <span class="badge badge-anim">2D / 3D Animatsiya Stsenariysi (Kadrma-kadr)</span>
+            <ul class="step-list">
+                <li><strong>1-kadr:</strong> Kristall panjara tugunlarida tebranib turgan atomlar (Qattiq jism).</li>
+                <li><strong>2-kadr:</strong> Harorat ko‘tarilishi bilan atomlar tebranishi kuchayadi va panjara buzilib, zarrachalar bir-birining ustidan sirg‘ana boshlaydi (Suyuqlik).</li>
+                <li><strong>3-kadr:</strong> Zarrachalar har tomonga erkin uchib ketadi (Gaz).</li>
+                <li><strong>4-kadr:</strong> Ikki molekula bir-biriga juda yaqinlashganda itarishish, uzoqlashganda tortishish kuchlari namoyon bo‘ladi.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- REJA 3 -->
+    <div class="section">
+        <h2>3. Braun harakati (kashf etilishi, mohiyati va fizik ma'nosi)</h2>
+        <p>1827-yilda shotland botanigi Robert Braun mikroskop ostida suvda muallaq turgan o‘simlik changchilarining (sporalarning) betartib harakatlanishini kuzatgan.</p>
+        
+        <ul>
+            <li><strong>Mohiyati:</strong> Suyuqlik yoki gazda muallaq turgan mikroskopik zarrachalarning (masalan, chang, bo‘yoq zarrachalari) betartib va to‘xtovsiz harakati.</li>
+            <li><strong>Fizik ma'nosi:</strong> Braun harakatining o‘zi molekula emas, balki atrofdagi suv yoki havo molekulalarining uzluksiz zarbalari natijasida harakatlanadigan nisbatan katta zarrachadir. Bu hodisa molekulalarning mavjudligi va ularning uzluksiz, betartib harakatda bo‘lishini ko‘rgazmali isbotlaydi.</li>
+        </ul>
+
+        <!-- Canvas 3: Braun harakati -->
+        <div class="sim-container">
+            <div class="sim-header">
+                <span class="sim-title">🔬 Interaktiv Simulyatsiya: Braun Harakati (Mikroskopik ko'rinish)</span>
+                <div>To'qnashuvlar: <span id="brown-hits" class="stat-badge">0</span></div>
+            </div>
+            <canvas id="canvas3"></canvas>
+            <div class="sim-controls">
+                <div class="control-group">
+                    <label for="temp3">Harorat (T):</label>
+                    <input type="range" id="temp3" min="100" max="600" value="300">
+                    <span id="temp3-val" class="stat-badge">300 K</span>
+                </div>
+                <div class="control-group">
+                    <button id="toggle-molecules" onclick="toggleMolecules3()">Molekulalarni yashirish / ko'rsatish</button>
+                    <button onclick="clearTrace3()">Trayektoriyani tozalash</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-anim">
+            <span class="badge badge-anim">2D / 3D Animatsiya Stsenariysi (Kadrma-kadr)</span>
+            <ul class="step-list">
+                <li><strong>1-kadr:</strong> 1827-yil. Robert Braun mikroskopga qaramoqda.</li>
+                <li><strong>2-kadr:</strong> Mikroskop obyektivi ichidagi ko‘rinish: Suv tomchisidagi katta changcha zarrachasi doimiy ravishda zigzagsimon yo‘nalishda harakatlanmoqda.</li>
+                <li><strong>3-kadr:</strong> Masshtab kattalashadi (Zoom in): Changcha zarrachasiga har tomondan minglab kichik suv molekulalari kelib urilayotgani ko‘rinadi.</li>
+                <li><strong>4-kadr:</strong> Xulosa ekrani: <em>"Braun harakati — molekulalar issiqlik harakatining oqibatidir!"</em></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer">
+        9-sinf Fizika fani dars ishlanmasi materiallari © Metodistik va Interaktiv Qo'llanma
+    </div>
+
+    <!-- JAVASCRIPT ANIMATION LOGIC -->
+    <script>
+        // --- CANVAS 1: Gaz molekulalari simulyatsiyasi ---
+        const canvas1 = document.getElementById('canvas1');
+        const ctx1 = canvas1.getContext('2d');
+        const temp1Input = document.getElementById('temp1');
+        const count1Input = document.getElementById('count1');
+        const temp1Val = document.getElementById('temp1-val');
+        const count1Val = document.getElementById('count1-val');
+        const pressure1Val = document.getElementById('phet1-pressure');
+
+        let particles1 = [];
+        let hitsCount1 = 0;
+
+        function resizeCanvas1() {
+            canvas1.width = canvas1.clientWidth;
+            canvas1.height = canvas1.clientHeight;
+        }
+
+        class Particle1 {
+            constructor() {
+                this.r = 5;
+                this.x = Math.random() * (canvas1.width - 2*this.r) + this.r;
+                this.y = Math.random() * (canvas1.height - 2*this.r) + this.r;
+                let angle = Math.random() * Math.PI * 2;
+                this.speed = Math.sqrt(temp1Input.value) * 0.15;
+                this.vx = Math.cos(angle) * this.speed;
+                this.vy = Math.sin(angle) * this.speed;
+                this.color = '#38bdf8';
+            }
+
+            update(temp) {
+                let currentSpeed = Math.sqrt(this.vx*this.vx + this.vy*this.vy);
+                let targetSpeed = Math.sqrt(temp) * 0.15;
+                if(currentSpeed > 0) {
+                    this.vx = (this.vx / currentSpeed) * targetSpeed;
+                    this.vy = (this.vy / currentSpeed) * targetSpeed;
+                }
+
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x - this.r <= 0) { this.x = this.r; this.vx *= -1; hitsCount1++; }
+                if (this.x + this.r >= canvas1.width) { this.x = canvas1.width - this.r; this.vx *= -1; hitsCount1++; }
+                if (this.y - this.r <= 0) { this.y = this.r; this.vy *= -1; hitsCount1++; }
+                if (this.y + this.r >= canvas1.height) { this.y = canvas1.height - this.r; this.vy *= -1; hitsCount1++; }
+            }
+
+            draw() {
+                ctx1.beginPath();
+                ctx1.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                ctx1.fillStyle = this.color;
+                ctx1.fill();
+                ctx1.closePath();
+            }
+        }
+
+        function initParticles1() {
+            resizeCanvas1();
+            particles1 = [];
+            let count = parseInt(count1Input.value);
+            for (let i = 0; i < count; i++) {
+                particles1.push(new Particle1());
+            }
+        }
+
+        setInterval(() => {
+            let p = (hitsCount1 * temp1Input.value / 10000).toFixed(2);
+            pressure1Val.innerText = p + " atm";
+            hitsCount1 = 0;
+        }, 500);
+
+        function animate1() {
+            ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
+            let temp = parseFloat(temp1Input.value);
+            particles1.forEach(p => {
+                p.update(temp);
+                p.draw();
+            });
+            requestAnimationFrame(animate1);
+        }
+
+        temp1Input.addEventListener('input', () => temp1Val.innerText = temp1Input.value + ' K');
+        count1Input.addEventListener('input', () => {
+            count1Val.innerText = count1Input.value;
+            initParticles1();
+        });
+
+
+        // --- CANVAS 2: Agregat holatlar va Diffuziya ---
+        const canvas2 = document.getElementById('canvas2');
+        const ctx2 = canvas2.getContext('2d');
+        let state2 = 'gas';
+        let particles2 = [];
+
+        function resizeCanvas2() {
+            canvas2.width = canvas2.clientWidth;
+            canvas2.height = canvas2.clientHeight;
+        }
+
+        class Particle2 {
+            constructor(x, y, color, type) {
+                this.baseX = x;
+                this.baseY = y;
+                this.x = x;
+                this.y = y;
+                this.r = 6;
+                this.color = color;
+                this.type = type;
+                this.vx = (Math.random() - 0.5) * 3;
+                this.vy = (Math.random() - 0.5) * 3;
+            }
+
+            update() {
+                if (state2 === 'solid') {
+                    this.x = this.baseX + (Math.random() - 0.5) * 2;
+                    this.y = this.baseY + (Math.random() - 0.5) * 2;
+                } else if (state2 === 'liquid') {
+                    this.x += (Math.random() - 0.5) * 2 + this.vx * 0.2;
+                    this.y += (Math.random() - 0.5) * 2 + this.vy * 0.2;
+                    if (this.y < canvas2.height - 80) this.vy += 0.1; // gravity
+                    if (this.x < 10 || this.x > canvas2.width - 10) this.vx *= -1;
+                    if (this.y > canvas2.height - 10) { this.y = canvas2.height - 10; this.vy *= -0.5; }
+                } else if (state2 === 'gas' || state2 === 'diffuse') {
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    let minX = (state2 === 'diffuse') ? 0 : (this.type === 'blue' ? 0 : canvas2.width / 2);
+                    let maxX = (state2 === 'diffuse') ? canvas2.width : (this.type === 'blue' ? canvas2.width / 2 : canvas2.width);
+
+                    if (this.x - this.r <= minX || this.x + this.r >= maxX) this.vx *= -1;
+                    if (this.y - this.r <= 0 || this.y + this.r >= canvas2.height) this.vy *= -1;
+                }
+            }
+
+            draw() {
+                ctx2.beginPath();
+                ctx2.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                ctx2.fillStyle = this.color;
+                ctx2.fill();
+                ctx2.closePath();
+            }
+        }
+
+        function setState2(newState) {
+            state2 = newState;
+            document.querySelectorAll('#canvas2 + .sim-controls button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('state2-title').innerText = 
+                state2 === 'solid' ? 'Qattiq Jism (Kristall panjara)' :
+                state2 === 'liquid' ? 'Suyuqlik Holati' :
+                state2 === 'gas' ? 'Gaz Holati (Aralashmagan)' : 'Diffuziya (Aralashish Jarayoni)';
+            initParticles2();
+        }
+
+        function initParticles2() {
+            resizeCanvas2();
+            particles2 = [];
+            let w = canvas2.width;
+            let h = canvas2.height;
+
+            if (state2 === 'solid') {
+                let cols = 10, rows = 5;
+                for (let i = 0; i < cols; i++) {
+                    for (let j = 0; j < rows; j++) {
+                        particles2.push(new Particle2(w/2 - 100 + i*20, h/2 - 40 + j*20, '#60a5fa', 'blue'));
+                    }
+                }
+            } else if (state2 === 'liquid') {
+                for (let i = 0; i < 70; i++) {
+                    particles2.push(new Particle2(w/2 + (Math.random()-0.5)*160, h - 20 - Math.random()*50, '#38bdf8', 'blue'));
+                }
+            } else {
+                for (let i = 0; i < 35; i++) {
+                    particles2.push(new Particle2(Math.random() * (w/2 - 20) + 10, Math.random() * (h - 20) + 10, '#38bdf8', 'blue'));
+                    particles2.push(new Particle2(Math.random() * (w/2 - 20) + w/2 + 10, Math.random() * (h - 20) + 10, '#f43f5e', 'red'));
+                }
+            }
+        }
+
+        function animate2() {
+            ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+
+            if (state2 === 'gas') {
+                ctx2.strokeStyle = '#64748b';
+                ctx2.setLineDash([5, 5]);
+                ctx2.beginPath();
+                ctx2.moveTo(canvas2.width / 2, 0);
+                ctx2.lineTo(canvas2.width / 2, canvas2.height);
+                ctx2.stroke();
+                ctx2.setLineDash([]);
+            }
+
+            particles2.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate2);
+        }
+
+
+        // --- CANVAS 3: Braun Harakati ---
+        const canvas3 = document.getElementById('canvas3');
+        const ctx3 = canvas3.getContext('2d');
+        const temp3Input = document.getElementById('temp3');
+        const temp3Val = document.getElementById('temp3-val');
+        const hits3Val = document.getElementById('brown-hits');
+
+        let showMolecules3 = true;
+        let trace3 = [];
+        let totalHits3 = 0;
+
+        function resizeCanvas3() {
+            canvas3.width = canvas3.clientWidth;
+            canvas3.height = canvas3.clientHeight;
+        }
+
+        class BigParticle3 {
+            constructor() {
+                this.r = 16;
+                this.x = canvas3.width / 2;
+                this.y = canvas3.height / 2;
+                this.vx = 0;
+                this.vy = 0;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vx *= 0.95; 
+                this.vy *= 0.95;
+
+                if (this.x - this.r < 0) { this.x = this.r; this.vx *= -1; }
+                if (this.x + this.r > canvas3.width) { this.x = canvas3.width - this.r; this.vx *= -1; }
+                if (this.y - this.r < 0) { this.y = this.r; this.vy *= -1; }
+                if (this.y + this.r > canvas3.height) { this.y = canvas3.height - this.r; this.vy *= -1; }
+
+                trace3.push({x: this.x, y: this.y});
+                if (trace3.length > 150) trace3.shift();
+            }
+
+            draw() {
+                // Draw Trace
+                if (trace3.length > 1) {
+                    ctx3.beginPath();
+                    ctx3.moveTo(trace3[0].x, trace3[0].y);
+                    for (let i = 1; i < trace3.length; i++) {
+                        ctx3.lineTo(trace3[i].x, trace3[i].y);
+                    }
+                    ctx3.strokeStyle = 'rgba(251, 191, 36, 0.4)';
+                    ctx3.lineWidth = 2;
+                    ctx3.stroke();
+                }
+
+                // Draw Particle
+                ctx3.beginPath();
+                ctx3.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                ctx3.fillStyle = '#f59e0b';
+                ctx3.shadowColor = '#fbbf24';
+                ctx3.shadowBlur = 10;
+                ctx3.fill();
+                ctx3.shadowBlur = 0;
+                ctx3.closePath();
+            }
+        }
+
+        class SmallMolecule3 {
+            constructor() {
+                this.r = 3;
+                this.x = Math.random() * canvas3.width;
+                this.y = Math.random() * canvas3.height;
+                let angle = Math.random() * Math.PI * 2;
+                this.speed = Math.sqrt(temp3Input.value) * 0.25;
+                this.vx = Math.cos(angle) * this.speed;
+                this.vy = Math.sin(angle) * this.speed;
+            }
+
+            update(bigP) {
+                let temp = parseFloat(temp3Input.value);
+                let currentSpeed = Math.sqrt(this.vx*this.vx + this.vy*this.vy);
+                let targetSpeed = Math.sqrt(temp) * 0.25;
+                if(currentSpeed > 0) {
+                    this.vx = (this.vx / currentSpeed) * targetSpeed;
+                    this.vy = (this.vy / currentSpeed) * targetSpeed;
+                }
+
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > canvas3.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas3.height) this.vy *= -1;
+
+                // Collision with Big Particle
+                let dx = this.x - bigP.x;
+                let dy = this.y - bigP.y;
+                let dist = Math.sqrt(dx*dx + dy*dy);
+
+                if (dist < this.r + bigP.r) {
+                    bigP.vx += this.vx * 0.12;
+                    bigP.vy += this.vy * 0.12;
+                    this.vx *= -1;
+                    this.vy *= -1;
+                    totalHits3++;
+                    hits3Val.innerText = totalHits3;
+                }
+            }
+
+            draw() {
+                if (!showMolecules3) return;
+                ctx3.beginPath();
+                ctx3.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                ctx3.fillStyle = '#38bdf8';
+                ctx3.fill();
+                ctx3.closePath();
+            }
+        }
+
+        let bigParticle3;
+        let smallMolecules3 = [];
+
+        function initParticles3() {
+            resizeCanvas3();
+            bigParticle3 = new BigParticle3();
+            smallMolecules3 = [];
+            for (let i = 0; i < 80; i++) {
+                smallMolecules3.push(new SmallMolecule3());
+            }
+        }
+
+        function toggleMolecules3() {
+            showMolecules3 = !showMolecules3;
+        }
+
+        function clearTrace3() {
+            trace3 = [];
+            totalHits3 = 0;
+            hits3Val.innerText = '0';
+        }
+
+        function animate3() {
+            ctx3.clearRect(0, 0, canvas3.width, canvas3.height);
+
+            bigParticle3.update();
+            bigParticle3.draw();
+
+            smallMolecules3.forEach(m => {
+                m.update(bigParticle3);
+                m.draw();
+            });
+
+            requestAnimationFrame(animate3);
+        }
+
+        temp3Input.addEventListener('input', () => temp3Val.innerText = temp3Input.value + ' K');
+
+        // Initial setup and responsive resizing
+        window.onload = () => {
+            initParticles1();
+            animate1();
+
+            initParticles2();
+            animate2();
+
+            initParticles3();
+            animate3();
+        };
+
+        window.onresize = () => {
+            initParticles1();
+            initParticles2();
+            initParticles3();
+        };
+    </script>
+</body>
+</html>

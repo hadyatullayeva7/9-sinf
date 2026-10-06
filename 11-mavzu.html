@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Izobarik jarayon — 9-sinf fizika</title>
+<style>
+:root{--bg:#f6f7fb;--fg:#1b1f2a;--card:#fff;--line:#c9cedb;--hot:#ef6c1a;--cold:#2a7de1;--ok:#1a9a4a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#12151c;--fg:#eef0f6;--card:#1c212d;--line:#434a5c}}
+:root[data-theme=dark]{--bg:#12151c;--fg:#eef0f6;--card:#1c212d;--line:#434a5c}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:14px 14px 4px}h1{font-size:21px;margin:0}h2{font-size:19px;margin:14px 0 8px}
+nav{display:flex;flex-wrap:wrap;gap:8px;padding:8px 14px}
+button,select{font:inherit;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
+nav button.on{background:var(--cold);color:#fff;border-color:var(--cold)}
+main{padding:0 14px 30px;max-width:900px;margin:auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:10px 0}
+.row{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start}
+canvas{width:100%;height:auto;max-width:360px;background:var(--card);border-radius:10px}
+#ctl{flex:1;min-width:250px}
+label{display:block;margin-top:8px;font-weight:600}
+input[type=range]{width:100%;height:32px}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.ro{background:var(--bg);border-radius:10px;padding:8px 12px;font-size:18px;line-height:1.7}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:10px;margin-top:12px}
+.grid canvas{max-width:none}
+.f{font-size:20px;font-weight:700;text-align:center;padding:6px;background:var(--bg);border-radius:8px;margin:6px 0}
+details{margin:8px 0}summary{cursor:pointer;font-weight:700}
+</style></head><body>
+<header><h1>Izobarik jarayon · 9-sinf fizika · 11-mavzu</h1></header>
+<nav id="tabs"></nav>
+<main>
+<h2 id="ttl"></h2>
+<section class="card" id="th"></section>
+<section class="card" id="sol"></section>
+<div class="card" id="dsw" hidden>Grafik uchun ma'lumot: <select id="ds"><option value="0">1-reja</option><option value="1">2-reja</option><option value="2">3-reja</option></select></div>
+<section class="card">
+<h2 style="margin-top:0">Interaktiv simulyatsiya va animatsiya</h2>
+<div class="row"><canvas id="cy" width="360" height="430"></canvas>
+<div id="ctl">
+<div class="ro" id="t1"></div>
+<label>T₂ (K): <span id="vT"></span></label><input type="range" id="sT" min="100" max="800" step="5">
+<label>p (kPa): <span id="vp"></span></label><input type="range" id="sp" min="50" max="300" step="10">
+<label>V₁ (l): <span id="vV"></span></label><input type="range" id="sV" min="1" max="12" step="0.5">
+<div class="btns"><button id="bS">▶ Boshlash</button><button id="bP">⏸ To'xtatish</button><button id="bR">↻ Qayta boshlash</button><button id="bA">🎬 Animatsiya (25 s)</button></div>
+<div class="ro" id="ro"></div>
+</div></div>
+<div class="grid" id="gr"><canvas width="360" height="260"></canvas><canvas width="360" height="260"></canvas><canvas width="360" height="260" id="g3"></canvas></div>
+</section>
+<section class="card" id="ts"></section>
+</main>
+<script>
+const P=[
+{t:"1-reja. Izobarik jarayon tushunchasi va Gey-Lyussak qonuni",p:100,T1:300,V1:2,T2:450,
+th:`<b>Izobarik jarayon</b> — gazning bosimi o'zgarmas (<b>p = const</b>) bo'ladigan jarayon. Massa ham o'zgarmaydi (m = const). Bunda gaz isitilsa hajmi ortadi, sovitilsa kamayadi.<div class="f">V₁/T₁ = V₂/T₂ &nbsp; yoki &nbsp; V/T = const</div>Bu <b>Gey-Lyussak qonuni</b>: o'zgarmas bosimda gaz hajmi absolyut haroratga to'g'ri proporsional. Harorat albatta kelvinda olinadi: T = t + 273.`,
+sol:`<b>Berilgan:</b> p = 100 kPa = const, T₁ = 300 K, V₁ = 2 l, T₂ = 450 K.<br><b>Topish kerak:</b> V₂ = ?<br><b>Yechish:</b> V₁/T₁ = V₂/T₂ ⇒ V₂ = V₁·T₂/T₁ = 2·450/300 = 3 l.<br><b>Javob:</b> V₂ = 3 l.`,
+q:[["Izobarik jarayonda qaysi kattalik o'zgarmas?",["harorat","hajm","bosim","ichki energiya"],"C"],["Gey-Lyussak qonuni formulasi qaysi?",["pV = const","V/T = const","p/T = const","pT = const"],"B"],["2 l gaz p = const da 300 K dan 600 K gacha isitildi. V₂ = ?",["1 l","3 l","4 l","6 l"],"C"]],
+ex:["V₁ = 5 l, T₁ = 250 K gaz p = const da T₂ = 400 K gacha isitildi. V₂ ni toping.","12 l gaz 360 K dan 270 K gacha izobarik sovitildi. Uning yangi hajmi qancha?"]},
+{t:"2-reja. Gaz isitilganda kengayishi (porshenli silindr)",p:150,T1:280,V1:4,T2:420,
+th:`Porshenli silindrda gaz isitilsa, molekulalar tezroq harakatlanadi va porshenni yuqoriga suradi. Porshen og'irligi va tashqi bosim o'zgarmagani uchun gaz bosimi p = const.<div class="f">A = p·ΔV, &nbsp; ΔV = V₂ − V₁</div>Gaz kengayganda ΔV &gt; 0, demak gaz ishi <b>musbat</b>. 1 kPa·l = 1 J.`,
+sol:`<b>Berilgan:</b> p = 150 kPa, T₁ = 280 K, V₁ = 4 l, T₂ = 420 K.<br><b>Topish kerak:</b> V₂, ΔV, A.<br><b>Yechish:</b> V₂ = V₁·T₂/T₁ = 4·420/280 = 6 l; ΔV = 6 − 4 = 2 l; A = p·ΔV = 150·10³ Pa · 2·10⁻³ m³ = 300 J.<br><b>Javob:</b> V₂ = 6 l, ΔV = 2 l, A = 300 J.`,
+q:[["Gaz p = const da isitilsa, porshen...",["pastga tushadi","yuqoriga ko'tariladi","qimirlamaydi","avval tushib, keyin ko'tariladi"],"B"],["p = 100 kPa, ΔV = 3 l bo'lsa, gaz ishi qancha?",["30 J","300 J","3 J","3000 J"],"B"],["Gaz kengayganda uning ishi qanday bo'ladi?",["musbat","manfiy","nolga teng","aniqlab bo'lmaydi"],"A"]],
+ex:["p = 100 kPa, V₁ = 3 l, T₁ = 300 K gaz T₂ = 500 K gacha izobarik isitildi. V₂ va gaz ishini toping.","p = 200 kPa, V₁ = 2 l, T₁ = 200 K gaz hajmi 5 l bo'lguncha izobarik isitildi. T₂ va A ni toping."]},
+{t:"3-reja. Gaz sovitilganda siqilishi",p:200,T1:600,V1:6,T2:300,
+th:`Gaz sovitilsa, molekulalar sekinlashadi, porshen pastga tushadi va gaz siqiladi (bosim o'zgarmaydi). Hajm kamayadi: ΔV &lt; 0.<div class="f">A = p·ΔV &lt; 0</div>Manfiy ish shuni bildiradiki, ishni gaz emas, <b>tashqi kuchlar gaz ustida</b> bajaradi.`,
+sol:`<b>Berilgan:</b> p = 200 kPa, T₁ = 600 K, V₁ = 6 l, T₂ = 300 K.<br><b>Topish kerak:</b> V₂, ΔV, A.<br><b>Yechish:</b> V₂ = 6·300/600 = 3 l; ΔV = 3 − 6 = −3 l; A = 200·10³ · (−3·10⁻³) = −600 J.<br><b>Javob:</b> V₂ = 3 l, ΔV = −3 l, A = −600 J (tashqi kuchlar gaz ustida 600 J ish bajaradi).`,
+q:[["Gaz izobarik siqilganda uning ishi...",["musbat","manfiy","nol","cheksiz"],"B"],["V₁ = 8 l, T₁ = 400 K gaz p = const da 100 K gacha sovitildi. V₂ = ?",["2 l","4 l","16 l","32 l"],"A"],["A = −600 J nimani bildiradi?",["gaz 600 J ish bajardi","tashqi kuchlar gaz ustida 600 J ish bajardi","gaz 600 J issiqlik oldi","ish bajarilmadi"],"B"]],
+ex:["p = 100 kPa, V₁ = 9 l, T₁ = 450 K gaz T₂ = 150 K gacha izobarik sovitildi. V₂, ΔV va A ni toping.","p = 250 kPa, V₁ = 10 l, T₁ = 500 K gaz 400 K gacha sovitildi. V₂ va A ni toping."]},
+{t:"4-reja. Grafiklar va umumlashtirish",p:100,T1:300,V1:2,T2:450,
+th:`Izobarik jarayon grafiklari:<br>• <b>V–T</b>: koordinata boshidan o'tuvchi to'g'ri chiziq (V ∼ T).<br>• <b>p–V</b>: V o'qiga parallel gorizontal chiziq.<br>• <b>p–T</b>: T o'qiga parallel gorizontal chiziq.<div class="f">p–V grafikda shtrixlangan yuza = A = p·ΔV</div>Pastdagi menyudan 1–3-reja ma'lumotlarini tanlab, grafiklarni kuzating.`,
+sol:`<b>Xulosa:</b> 1-reja: V₂ = 3 l. 2-reja: V₂ = 6 l, A = 300 J (yuza musbat). 3-reja: V₂ = 3 l, A = −600 J (jarayon V kamayish tomon, ish manfiy). Hamma holatda p–V va p–T grafiklarida chiziq gorizontal, V–T grafigida esa to'g'ri chiziq.`,
+q:[["Izobarik jarayonning V–T grafigi qanday?",["giperbola","koordinata boshidan o'tuvchi to'g'ri chiziq","T o'qiga parallel chiziq","parabola"],"B"],["p–V grafikda izobara qanday chiziladi?",["V o'qiga parallel gorizontal chiziq","vertikal chiziq","og'ma chiziq","giperbola"],"A"],["p–V grafikda gaz ishi nimaga teng?",["chiziq uzunligiga","shtrixlangan yuzaga","chiziq qiyaligiga","nuqta koordinatasiga"],"B"]],
+ex:["p–V grafikda p = 200 kPa da hajm 2 l dan 5 l gacha ortdi. Shtrixlangan yuza (ish) qancha?","V–T grafigi to'g'ri chiziq: T = 100 K da V = 2 l. T = 300 K da hajm qancha?"]}
+];
+const $=id=>document.getElementById(id),cy=$('cy'),cx=cy.getContext('2d'),gc=[...$('gr').children];
+const fm=v=>String(+v.toFixed(2)).replace('-','−');
+let cur=0,ds=0,s={},last=0,M=[];
+for(let i=0;i<36;i++){let a=Math.random()*6.28;M.push({x:50+Math.random()*130,y:150+Math.random()*140,vx:Math.cos(a),vy:Math.sin(a)})}
+const vo=T=>s.V1*T/s.T1, vmax=()=>Math.max(s.V1,vo(s.T2))*1.15, BOT=300,HH=220;
+const warm=()=>s.T2>=s.T1, col=()=>s.T2>s.T1?'#ef6c1a':s.T2<s.T1?'#2a7de1':'#888';
+function loadData(){const d=P[cur==3?ds:cur];s={p:d.p,T1:d.T1,V1:d.V1,T2:d.T2,Tc:d.T1,run:false,an:0,at:0};sync()}
+function sync(){$('sT').value=s.T2;$('sp').value=s.p;$('sV').value=s.V1;$('vT').textContent=s.T2;$('vp').textContent=s.p;$('vV').textContent=s.V1;$('t1').innerHTML='T₁ = '+s.T1+' K (boshlang\'ich)'}
+function show(i){cur=i;const d=P[i];$('ttl').textContent=d.t;$('th').innerHTML=d.th;$('sol').innerHTML='<h3 style="margin:0 0 6px">Yechim</h3>'+d.sol;
+$('dsw').hidden=i!=3;$('g3').style.display=i==3?'':'none';
+$('ts').innerHTML='<h3 style="margin-top:0">Test savollari</h3>'+d.q.map((q,k)=>`<p><b>${k+1}. ${q[0]}</b><br>`+q[1].map((o,j)=>'ABCD'[j]+') '+o).join('<br>')+'</p>').join('')+
+`<details><summary>Javoblar</summary>${d.q.map((q,k)=>(k+1)+'-'+q[2]).join(', ')}</details><h3>Mustaqil ishlash uchun masalalar</h3><ol>${d.ex.map(e=>'<li>'+e+'</li>').join('')}</ol>`;
+[...$('tabs').children].forEach((b,k)=>b.classList.toggle('on',k==i));loadData()}
+for(let i=0;i<4;i++){const b=document.createElement('button');b.textContent=(i+1)+'-reja';b.onclick=()=>show(i);$('tabs').appendChild(b)}
+$('ds').onchange=e=>{ds=+e.target.value;loadData()};
+['sT','sp','sV'].forEach(id=>$(id).oninput=()=>{s.an=0;s.T2=+$('sT').value;s.p=+$('sp').value;s.V1=+$('sV').value;$('vT').textContent=s.T2;$('vp').textContent=s.p;$('vV').textContent=s.V1;if(!s.run)s.Tc=s.T2});
+$('bS').onclick=()=>{s.an=0;if(Math.abs(s.Tc-s.T2)<.5)s.Tc=s.T1;s.run=true};
+$('bP').onclick=()=>{s.run=false;if(s.an==1)s.an=0};
+$('bR').onclick=()=>{s.an=0;s.Tc=s.T1;s.run=true};
+$('bA').onclick=()=>{loadData();s.an=1;s.at=0};
+function step(dt){
+ if(s.an==1){s.at+=dt;const t=s.at;if(t<6)s.Tc=s.T1;else if(t<19){let f=(t-6)/13;f=f*f*(3-2*f);s.Tc=s.T1+(s.T2-s.T1)*f}else s.Tc=s.T2;if(t>=25){s.at=25;s.an=2}}
+ else if(s.run){const r=Math.abs(s.T2-s.T1)/8+1e-9,d=s.T2-s.Tc;if(Math.abs(d)<=r*dt){s.Tc=s.T2;s.run=false}else s.Tc+=Math.sign(d)*r*dt}
+ const sp=6*Math.sqrt(Math.max(s.Tc,1)),top=BOT-vo(s.Tc)/vmax()*HH+16;
+ M.forEach(m=>{m.x+=m.vx*sp*dt;m.y+=m.vy*sp*dt;if(m.x<48){m.x=48;m.vx=Math.abs(m.vx)}if(m.x>182){m.x=182;m.vx=-Math.abs(m.vx)}if(m.y<top){m.y=top;m.vy=Math.abs(m.vy)}if(m.y>BOT-5){m.y=BOT-5;m.vy=-Math.abs(m.vy)}})}
+function draw(){
+ const cs=getComputedStyle(document.documentElement),fg=cs.getPropertyValue('--fg').trim(),bg=cs.getPropertyValue('--bg').trim(),c=cx,C=col();
+ c.clearRect(0,0,360,430);c.lineWidth=3;c.textAlign='left';
+ const V=vo(s.Tc),py=BOT-V/vmax()*HH,dV=V-s.V1,A=s.p*dV;
+ c.fillStyle=C;c.globalAlpha=.25;c.fillRect(40,BOT+4,150,18);c.globalAlpha=.16;c.fillRect(40,py+12,150,BOT-py-12);c.globalAlpha=1;
+ c.fillStyle=C;M.forEach(m=>{c.beginPath();c.arc(m.x,m.y,4.5,0,6.28);c.fill()});
+ c.strokeStyle=fg;c.beginPath();c.moveTo(40,70);c.lineTo(40,BOT);c.lineTo(190,BOT);c.lineTo(190,70);c.stroke();
+ c.fillStyle=fg;c.fillRect(40,py,150,12);c.fillRect(110,40,10,py-40);c.fillRect(90,34,50,8);
+ c.font='bold 16px sans-serif';c.fillText('p ↓',150,py-6);
+ const gx=275,gy=120;c.strokeStyle=fg;c.lineWidth=3;c.beginPath();c.arc(gx,gy,58,Math.PI,2*Math.PI);c.stroke();
+ const a=Math.PI+Math.min(s.p/300,1)*Math.PI;c.strokeStyle='#d33';c.beginPath();c.moveTo(gx,gy);c.lineTo(gx+52*Math.cos(a),gy+52*Math.sin(a));c.stroke();
+ c.fillStyle=fg;c.font='14px sans-serif';c.fillText('0',gx-66,gy+14);c.fillText('300',gx+40,gy+14);c.textAlign='center';
+ c.font='bold 16px sans-serif';c.fillText('Manometr',gx,gy+34);c.font='bold 21px sans-serif';c.fillText('p = '+s.p+' kPa',gx,gy+62);
+ c.fillStyle='#1a9a4a';c.font='bold 18px sans-serif';c.fillText('p = const ✓',gx,gy+88);
+ c.fillStyle=C;c.font='bold 22px sans-serif';c.fillText('T = '+Math.round(s.Tc)+' K',gx,gy+130);c.fillText('V = '+fm(V)+' l',gx,gy+160);
+ c.textAlign='left';
+ if(s.an){const t=s.at;c.fillStyle=bg;c.globalAlpha=.93;c.fillRect(0,325,360,105);c.globalAlpha=1;
+  c.fillStyle=C;c.fillRect(0,325,360*t/25,4);c.fillStyle=fg;c.font='bold 20px sans-serif';
+  const V2=vo(s.T2),L=t<6?['p = '+s.p+' kPa = const','T₁ = '+s.T1+' K,  V₁ = '+s.V1+' l','T₂ = '+s.T2+' K,  V₂ = ?']:t<19?[warm()?'🔥 Isitilmoqda':'❄️ Sovitilmoqda','T = '+Math.round(s.Tc)+' K','V = '+fm(V)+' l']:
+  ['V₂ = V₁·T₂ / T₁','V₂ = '+s.V1+'·'+s.T2+'/'+s.T1+' = '+fm(V2)+' l',cur==0?'Javob: V₂ = '+fm(V2)+' l':'ΔV = '+fm(V2-s.V1)+' l,  A = p·ΔV = '+fm(s.p*(V2-s.V1))+' J'];
+  L.forEach((l,i)=>c.fillText(l,12,356+i*30,336))}
+ $('ro').innerHTML='V₂ = V₁·T/T₁ = <b>'+fm(V)+' l</b><br>ΔV = V₂ − V₁ = <b>'+fm(dV)+' l</b><br>A = p·ΔV = <b style="color:'+C+'">'+fm(A)+' J</b>';
+ G(gc[0],'VT');G(gc[1],'pV');if(cur==3)G(gc[2],'pT')}
+function G(cv,k){
+ const c=cv.getContext('2d'),W=360,H=260,L=52,B=H-40,R=W-14,Tp=28,cs=getComputedStyle(document.documentElement),fg=cs.getPropertyValue('--fg').trim(),C=col();
+ const Tm=Math.max(s.T1,s.T2,s.Tc)*1.25,Vm=Math.max(s.V1,vo(s.T2),vo(s.Tc))*1.25,pm=s.p*1.5,X=k=='pV'?Vm:Tm,Y=k=='VT'?Vm:pm;
+ const px=v=>L+v/X*(R-L),py=v=>B-v/Y*(B-Tp),pt=T=>k=='VT'?[T,vo(T)]:k=='pV'?[vo(T),s.p]:[T,s.p];
+ c.clearRect(0,0,W,H);c.strokeStyle=fg;c.fillStyle=fg;c.lineWidth=2;c.beginPath();c.moveTo(L,Tp-4);c.lineTo(L,B);c.lineTo(R,B);c.stroke();
+ c.font='12px sans-serif';c.textAlign='center';for(let i=1;i<=4;i++){c.fillText(Math.round(X*i/4*10)/10,px(X*i/4),B+15);c.textAlign='right';c.fillText(Math.round(Y*i/4*10)/10,L-5,py(Y*i/4)+4);c.textAlign='center'}
+ c.font='bold 15px sans-serif';c.fillText({VT:'V–T grafik',pV:'p–V grafik',pT:'p–T grafik'}[k],W/2+10,16);
+ c.textAlign='right';c.fillText(k=='pV'?'V, l':'T, K',R,H-8);c.textAlign='left';c.fillText(k=='VT'?'V, l':'p, kPa',4,16);
+ c.save();c.beginPath();c.rect(L,Tp-4,R-L,B-Tp+4);c.clip();
+ c.setLineDash([5,5]);c.strokeStyle='#999';c.lineWidth=2;let a=pt(0),b=pt(Tm);c.beginPath();c.moveTo(px(a[0]),py(a[1]));c.lineTo(px(b[0]),py(b[1]));c.stroke();c.setLineDash([]);
+ if(k=='pV'){const x0=px(Math.min(s.V1,vo(s.Tc))),x1=px(Math.max(s.V1,vo(s.Tc)));c.save();c.beginPath();c.rect(x0,py(s.p),x1-x0,B-py(s.p));c.clip();c.fillStyle=C;c.globalAlpha=.25;c.fillRect(x0,py(s.p),x1-x0,B-py(s.p));c.globalAlpha=1;c.strokeStyle=C;c.lineWidth=1.5;for(let i=-300;i<400;i+=9){c.beginPath();c.moveTo(x0+i,B);c.lineTo(x0+i+(B-py(s.p)),py(s.p));c.stroke()}c.restore()}
+ a=pt(s.T1);b=pt(s.Tc);c.strokeStyle=C;c.lineWidth=4;c.beginPath();c.moveTo(px(a[0]),py(a[1]));c.lineTo(px(b[0]),py(b[1]));c.stroke();
+ c.fillStyle='#888';c.beginPath();c.arc(px(a[0]),py(a[1]),5,0,6.28);c.fill();c.fillStyle=C;c.beginPath();c.arc(px(b[0]),py(b[1]),6,0,6.28);c.fill();c.restore();
+ if(k=='pV'){c.fillStyle=fg;c.font='bold 14px sans-serif';c.textAlign='left';c.fillText('A = '+fm(s.p*(vo(s.Tc)-s.V1))+' J',L+8,Tp+14)}}
+function loop(ts){const dt=Math.min(.05,(ts-last)/1000||0);last=ts;step(dt);draw();requestAnimationFrame(loop)}
+show(0);requestAnimationFrame(loop);
+</script></body></html>

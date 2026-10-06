@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Molekula o‘lchamini baholash</title>
+<style>
+:root{--bg:#eaf4fb;--card:#fff;--ink:#12324a;--mut:#4f6b80;--oil:#e8a200;--acc:#e4572e;--ok:#2a9d6f;--line:#c9dcea;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e2233;--card:#16344b;--ink:#e6f1f8;--mut:#9db6c8;--line:#2b4d68}}
+:root[data-theme="dark"]{--bg:#0e2233;--card:#16344b;--ink:#e6f1f8;--mut:#9db6c8;--line:#2b4d68}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,"Segoe UI",Roboto,sans-serif;padding:12px;max-width:760px;margin:auto}
+h1{font-size:1.35rem;margin:6px 0 2px}h2{font-size:1.1rem;margin:0 0 6px}h3{font-size:1rem;margin:14px 0 6px}
+.sub{color:var(--mut);margin:0 0 10px}
+nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px}
+nav button{flex:0 0 auto;border:2px solid var(--line);background:var(--card);color:var(--ink);padding:8px 12px;border-radius:20px;font:inherit;font-weight:600;cursor:pointer}
+nav button.on{background:var(--oil);border-color:var(--oil);color:#2b1d00}
+section{display:none;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:8px}
+section.on{display:block}
+.box{border-left:5px solid var(--oil);padding:6px 10px;margin:8px 0;background:rgba(232,162,0,.12);border-radius:0 8px 8px 0}
+label{display:block;margin:10px 0 2px;font-weight:600}
+label output{color:var(--acc);font-weight:700}
+input[type=range]{width:100%;accent-color:var(--acc)}
+.res{background:rgba(42,157,111,.14);border:1px solid var(--ok);border-radius:10px;padding:8px 10px;margin-top:10px;overflow-wrap:anywhere}
+.res b{color:var(--ok)}
+canvas{width:100%;height:auto;background:linear-gradient(#f7fbff,#d7ecf8);border-radius:10px;display:block;border:1px solid var(--line)}
+.ctl{display:flex;gap:6px;margin-top:6px}
+.ctl button{flex:1;padding:9px 4px;border:0;border-radius:8px;font:inherit;font-weight:700;color:#fff;background:var(--ok);cursor:pointer}
+.ctl button:nth-child(2){background:var(--oil);color:#2b1d00}.ctl button:nth-child(3){background:var(--acc)}
+.chk{display:flex;gap:8px;align-items:center;font-weight:400;margin:4px 0}
+details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:6px 0}
+summary{cursor:pointer;font-weight:600}
+</style></head><body>
+<h1>13-mavzu. Molekulalar o‘lchamini baholash</h1>
+<p class="sub">9-sinf fizika · amaliy mashg‘ulot · 5 ta reja</p>
+<nav id="nav"></nav>
+
+<!-- 1-REJA -->
+<section>
+<h2>1-reja. Maqsad va nazariy asos</h2>
+<p>Barcha moddalar kichik zarralar — <b>molekulalardan</b> iborat. Ular uzluksiz va tartibsiz harakatlanadi, bir-biri bilan ta’sirlashadi. Molekulani ko‘z bilan ko‘rib bo‘lmaydi, shuning uchun o‘lchamini <b>bilvosita</b> baholaymiz.</p>
+<div class="box"><b>G‘oya:</b> moy tomchisi suv sirtida yoyilib, qalinligi bitta molekulaga teng yupqa qatlam hosil qiladi. Qatlam qalinligi ≈ molekula o‘lchami.</div>
+<p><b>Maqsad:</b> molekula o‘lchamini baholash (taxminan 10<sup>-9</sup> m tartibida).</p>
+<h3>Simulyatsiya: chiziqqa nechta molekula sig‘adi?</h3>
+<label>Molekula o‘lchami d: <output id="a1">0,5</output> nm</label><input type="range" id="d1" min="0.1" max="5" step="0.1" value="0.5">
+<label>Chiziq uzunligi L: <output id="a2">1</output> mm</label><input type="range" id="L1" min="1" max="10" step="1" value="1">
+<div class="res" id="r1"></div>
+<h3>Animatsiya: molekulalar harakati</h3><div class="anim" data-n="0" data-dur="8"></div>
+</section>
+
+<!-- 2-REJA -->
+<section>
+<h2>2-reja. Jihozlar va xavfsizlik</h2>
+<p><b>Jihozlar:</b> suv solingan keng idish, o‘simlik moyi yoki olein kislota eritmasi (spirtda), pipetka, o‘lchov stakani (menzurka), likopodiy kukuni, o‘lchagich.</p>
+<div class="box"><b>Xavfsizlik:</b> spirt yonuvchan — olovdan uzoqda ishlang. Shisha idishni ehtiyot qiling. Kukunni nafas bilan olmang. Ishdan so‘ng qo‘lni yuving.</div>
+<h3>Simulyatsiya: tayyorgarlik va eritma</h3>
+<div id="chk"></div><div class="res" id="r2a"></div>
+<label>Eritma konsentratsiyasi: 1 : <output id="b1">500</output></label><input type="range" id="N2" min="100" max="1000" step="50" value="500">
+<label>Bir tomchi eritma hajmi: <output id="b2">10</output> mm³</label><input type="range" id="V2" min="2" max="20" step="1" value="10">
+<div class="res" id="r2"></div>
+<h3>Animatsiya: jihozlar</h3><div class="anim" data-n="1" data-dur="7"></div>
+</section>
+
+<!-- 3-REJA -->
+<section>
+<h2>3-reja. Tajriba tartibi</h2>
+<ol><li>Idishga suv quying, sirtiga likopodiy kukunini yupqa sepib chiqing.</li>
+<li>Pipetka bilan bitta tomchi eritmani sirt markaziga tomizing.</li>
+<li>Spirt bug‘lanadi, moy yoyilib dog‘ hosil qiladi — kukun chetga siljiydi.</li>
+<li>Dog‘ to‘xtagach, diametrini o‘lchagich bilan 2–3 marta o‘lchang.</li></ol>
+<h3>Simulyatsiya: dog‘ diametri</h3>
+<label>Moy hajmi V: <output id="c1">0,06</output> mm³</label><input type="range" id="V3" min="0.01" max="0.2" step="0.01" value="0.06">
+<label>Dog‘ diametri D: <output id="c2">20</output> sm</label><input type="range" id="D3" min="5" max="40" step="1" value="20">
+<canvas id="cv3" width="600" height="220"></canvas><div class="res" id="r3"></div>
+<h3>Animatsiya: tomchi yoyiladi</h3><div class="anim" data-n="2" data-dur="8"></div>
+</section>
+
+<!-- 4-REJA -->
+<section>
+<h2>4-reja. Hisoblash</h2>
+<div class="box">Qatlam — S yuzli, d qalinlikli “plita”: <b>V = S · d</b>, demak <b>d = V / S</b>.</div>
+<p>V — sof moy hajmi: tomchi hajmi = jami hajm ÷ tomchilar soni; keyin konsentratsiyaga bo‘linadi. S = πD²/4. Natijani metrga (SI) o‘tkazing: 1 mm³ = 10<sup>-9</sup> m³, 1 sm = 10<sup>-2</sup> m.</p>
+<h3>Simulyatsiya: to‘liq hisob</h3>
+<label>Stakandagi eritma hajmi: <output id="e1">1</output> sm³</label><input type="range" id="Vt" min="1" max="5" step="0.5" value="1">
+<label>Tomchilar soni n: <output id="e2">100</output></label><input type="range" id="n4" min="50" max="200" step="10" value="100">
+<label>Konsentratsiya 1 : <output id="e3">500</output></label><input type="range" id="N4" min="100" max="1000" step="50" value="500">
+<label>Dog‘ diametri D: <output id="e4">15</output> sm</label><input type="range" id="D4" min="5" max="40" step="1" value="15">
+<div class="res" id="r4"></div>
+<h3>Animatsiya: V = S · d</h3><div class="anim" data-n="3" data-dur="8"></div>
+</section>
+
+<!-- 5-REJA -->
+<section>
+<h2>5-reja. Xatoliklar tahlili va xulosa</h2>
+<p>Jadvaldagi qiymat: olein kislota molekulasi o‘lchami ≈ <b>1,5 nm = 1,5·10<sup>-9</sup> m</b>. Bizning natija tartibi shu bilan mos kelsa, tajriba muvaffaqiyatli.</p>
+<p><b>Xatolik sabablari:</b> dog‘ aniq doira emas; chetini aniq ajratib bo‘lmaydi; tomchi hajmi noaniq; spirt to‘liq bug‘lanmagan; qatlam butunlay bir molekulali emas; suv va idish toza emas.</p>
+<h3>Simulyatsiya: xatolikni hisoblash</h3>
+<label>Sizning natijangiz d: <output id="f1">1,8</output> nm</label><input type="range" id="d5" min="0.1" max="20" step="0.1" value="1.8">
+<div class="res" id="r5"></div>
+<h3>Animatsiya: solishtirish</h3><div class="anim" data-n="4" data-dur="6"></div>
+<h3>Nazorat savollari</h3>
+<details><summary>1. Nima uchun moy suv sirtida yoyiladi?</summary>Moy molekulalari bir-biriga va suvga ta’sirlashib, kuchlar muvozanatga kelguncha yoyiladi; qatlam bir molekula qalinlikka yetganda to‘xtaydi.</details>
+<details><summary>2. d = V / S formulasi nimani bildiradi?</summary>Qatlam qalinligi (molekula o‘lchami) moy hajmining dog‘ yuziga nisbatiga teng.</details>
+<details><summary>3. D = 20 sm bo‘lsa, S necha m²?</summary>S = π·0,2²/4 ≈ 0,0314 m².</details>
+<details><summary>4. Likopodiy kukuni nima uchun kerak?</summary>U dog‘ chegarasini ko‘rinadigan qiladi — diametrni o‘lchash osonlashadi.</details>
+<details><summary>5. Qaysi xatolik natijani kattalashtiradi?</summary>Dog‘ yuzi kichik o‘lchansa yoki hajm katta olinsa, d katta chiqadi; to‘liq yoyilmagan dog‘ ham shunday natija beradi.</details>
+</section>
+
+<script>
+// ---------- yordamchi funksiyalar ----------
+const $=id=>document.getElementById(id);
+const fm=(x,n=2)=>x.toFixed(n).replace('.',',');           // vergulli son
+const sci=x=>{const e=Math.floor(Math.log10(Math.abs(x)));return fm(x/10**e)+' · 10<sup>'+e+'</sup>'}; // ilmiy yozuv
+const val=id=>+$(id).value;
+const out=(o,v)=>$(o).textContent=v;
+
+// ---------- tablar ----------
+const names=['1. Nazariya','2. Jihozlar','3. Tajriba','4. Hisob','5. Xatolik'];
+const secs=[...document.querySelectorAll('section')];
+names.forEach((n,i)=>{const b=document.createElement('button');b.textContent=n;b.onclick=()=>{secs.forEach((s,j)=>s.classList.toggle('on',i==j));[...$('nav').children].forEach((c,j)=>c.classList.toggle('on',i==j))};$('nav').appendChild(b)});
+$('nav').children[0].click();
+
+// ---------- 1-simulyatsiya ----------
+function s1(){const d=val('d1'),L=val('L1');out('a1',fm(d,1));out('a2',L);
+ const N=(L*1e-3)/(d*1e-9);
+ $('r1').innerHTML='Formula: N = L / d<br>L = '+L+' mm = '+L*1e-3+' m; d = '+d+' nm = '+sci(d*1e-9)+' m<br><b>N ≈ '+sci(N)+' ta molekula</b>'}
+['d1','L1'].forEach(i=>$(i).oninput=s1);s1();
+
+// ---------- 2-simulyatsiya ----------
+const items=['Keng idish (suv bilan)','Pipetka','O‘lchov stakani','Likopodiy kukuni','O‘lchagich','Spirt olovdan uzoqda'];
+items.forEach((t,i)=>{const l=document.createElement('label');l.className='chk';l.innerHTML='<input type="checkbox"> '+t;l.firstChild.onchange=s2a;$('chk').appendChild(l)});
+function s2a(){const k=[...$('chk').querySelectorAll('input')].filter(c=>c.checked).length;
+ $('r2a').innerHTML='Tayyorlik: <b>'+k+' / 6</b> '+(k==6?'— boshlash mumkin!':'')}
+function s2(){const N=val('N2'),V=val('V2');out('b1',N);out('b2',V);
+ $('r2').innerHTML='Formula: V<sub>moy</sub> = V<sub>eritma</sub> / N<br>V<sub>moy</sub> = '+V+' / '+N+' = <b>'+fm(V/N,3)+' mm³</b> = '+sci(V/N*1e-9)+' m³'}
+['N2','V2'].forEach(i=>$(i).oninput=s2);s2a();s2();
+
+// ---------- 3-simulyatsiya (dog‘ rasmi) ----------
+function s3(){const V=val('V3'),D=val('D3');out('c1',fm(V,2));out('c2',D);
+ const S=Math.PI*(D/100)**2/4,d=V*1e-9/S,nm=d*1e9;
+ const c=$('cv3').getContext('2d');c.clearRect(0,0,600,220);
+ c.fillStyle='#8fd0f0';c.fillRect(0,0,600,220);
+ const R=D*2.5;c.fillStyle=nm>3?'rgba(228,87,46,.75)':'rgba(232,162,0,.85)';c.beginPath();c.arc(300,110,R,0,7);c.fill();
+ c.fillStyle='#12324a';c.font='bold 16px sans-serif';c.textAlign='center';c.fillText('D = '+D+' sm',300,115);
+ $('r3').innerHTML='Formula: d = V / S, S = πD²/4<br>V = '+sci(V*1e-9)+' m³; D = '+D/100+' m; S = '+fm(S,4)+' m²<br><b>d = '+sci(d)+' m ('+fm(nm,2)+' nm)</b><br>'+
+ (nm>3?'Qatlam qalin — hali bir molekulali emas, dog‘ yana yoyilishi kerak.':nm<0.3?'Juda yupqa — hajm yoki diametr noto‘g‘ri.':'Bir molekulali qatlamga yaqin ✔')}
+['V3','D3'].forEach(i=>$(i).oninput=s3);s3();
+
+// ---------- 4-simulyatsiya (to‘liq hisob) ----------
+function s4(){const Vt=val('Vt'),n=val('n4'),N=val('N4'),D=val('D4');out('e1',fm(Vt,1));out('e2',n);out('e3',N);out('e4',D);
+ const V1=Vt*1000/n,V=V1/N,Vm=V*1e-9,S=Math.PI*(D/100)**2/4,d=Vm/S;
+ $('r4').innerHTML='1) Tomchi hajmi: V₁ = '+Vt+' sm³ / '+n+' = '+fm(V1,2)+' mm³<br>2) Sof moy: V = V₁ / '+N+' = '+fm(V,4)+' mm³ = '+sci(Vm)+' m³<br>3) Yuza: S = π·('+D/100+')²/4 = '+fm(S,4)+' m²<br>4) <b>d = V / S = '+sci(d)+' m</b>'}
+['Vt','n4','N4','D4'].forEach(i=>$(i).oninput=s4);s4();
+
+// ---------- 5-simulyatsiya ----------
+function s5(){const d=val('d5');out('f1',fm(d,1));const t=1.5,e=Math.abs(d-t)/t*100;
+ $('r5').innerHTML='Formula: δ = |d − d<sub>jadval</sub>| / d<sub>jadval</sub> · 100%<br>d = '+sci(d*1e-9)+' m; d<sub>jadval</sub> = 1,5 · 10<sup>-9</sup> m<br><b>δ ≈ '+fm(e,0)+' %</b> — '+(e<=30?'yaxshi natija ✔':e<=100?'qabul qilinadi, xatoliklarni tahlil qiling':'tartib mos emas, o‘lchovlarni tekshiring')}
+$('d5').oninput=s5;s5();
+
+// ---------- animatsiya mexanizmi ----------
+// draw(ctx, p = 0..1 jarayon, s = soniya)
+const scenes=[
+ (x,p,s)=>{const liq=p>.5;x.fillStyle='#12324a';x.font='bold 19px sans-serif';
+  x.fillText(liq?'Suyuqlik: molekulalar tartibsiz siljiydi':'Qattiq jism: molekulalar tartibli',16,32);
+  for(let i=0;i<14;i++)for(let j=0;j<6;j++){const k=i*7+j,a=liq?9:2;x.fillStyle=liq?'#2a9d6f':'#e4572e';x.beginPath();
+   x.arc(46+i*38+Math.sin(s*3+k)*a,80+j*38+Math.cos(s*2.3+k*1.7)*a,11,0,7);x.fill()}},
+ (x,p)=>{const it=['Keng idish','Pipetka','Menzurka','Likopodiy','O‘lchagich','Moy eritmasi'],col=['#4aa3df','#e4572e','#2a9d6f','#8a6fd1','#e8a200','#c98a00'];
+  x.font='bold 16px sans-serif';x.textAlign='center';
+  it.forEach((n,i)=>{const a=Math.min(1,Math.max(0,p*7-i));x.globalAlpha=a;x.fillStyle=col[i];
+   const X=20+(i%3)*190,Y=30+Math.floor(i/3)*130-(1-a)*20;x.fillRect(X,Y,170,80);x.fillStyle='#12324a';x.fillText(n,X+85,Y+105)});x.globalAlpha=1},
+ (x,p)=>{x.fillStyle='#8fd0f0';x.fillRect(0,200,600,100);x.fillStyle='#bcbcbc';x.fillRect(293,10,14,50);
+  x.fillStyle='#12324a';x.font='15px sans-serif';x.textAlign='left';
+  if(p<.3){const y=70+p/.3*125;x.fillStyle='#e8a200';x.beginPath();x.arc(300,y,7,0,7);x.fill();x.fillStyle='#12324a';x.fillText('Tomchi tushmoqda',330,60)}
+  else{const q=(p-.3)/.7,w=q*540;x.fillStyle='#e8a200';x.fillRect(300-w/2,197,w,4);
+   for(let i=0;i<=w;i+=9){x.beginPath();x.arc(300-w/2+i,194,3,0,7);x.fill()}
+   x.fillStyle='#12324a';x.fillText(q<1?'Moy yoyilmoqda…':'Bir molekula qalinligidagi qatlam',16,40)}},
+ (x,p)=>{const rx=40+p*230,ry=40-p*34;x.fillStyle='#e8a200';x.beginPath();x.ellipse(300,150,rx,ry,0,0,7);x.fill();
+  x.fillStyle='#12324a';x.font='bold 20px sans-serif';x.textAlign='center';
+  x.fillText('V = S · d',300,40);x.font='16px sans-serif';
+  x.fillText(p<.9?'Tomchi yassilanmoqda: S ortadi, d kamayadi':'d = V / S — juda yupqa qatlam',300,260)},
+ (x,p)=>{const t=1.5,m=1.8,k=Math.min(1,p*1.4),H=180;x.font='bold 15px sans-serif';x.textAlign='center';
+  [['Jadval',t,'#2a9d6f',150],['Natija',m,'#e4572e',350]].forEach(b=>{const h=b[1]/2*H*k;x.fillStyle=b[2];x.fillRect(b[3],250-h,100,h);
+   x.fillStyle='#12324a';x.fillText(b[0]+': '+fm(b[1],1)+' nm',b[3]+50,272)});
+  if(p>.8)x.fillText('Xatolik ≈ '+fm(Math.abs(m-t)/t*100,0)+' %',300,30)}
+];
+document.querySelectorAll('.anim').forEach(el=>{
+ const dur=+el.dataset.dur,draw=scenes[+el.dataset.n];
+ el.innerHTML='<canvas width="600" height="300"></canvas><div class="ctl"><button>▶ Play</button><button>⏸ Pause</button><button>↻ Qayta boshlash</button></div>';
+ const cv=el.firstChild,x=cv.getContext('2d'),[bp,bz,br]=el.querySelectorAll('button');
+ let t=0,run=false,last=0;
+ bp.onclick=()=>{if(t>=dur)t=0;run=true;last=performance.now()};
+ bz.onclick=()=>run=false;
+ br.onclick=()=>{t=0;run=true;last=performance.now()};
+ (function frame(now){if(cv.offsetParent){if(run){t=Math.min(dur,t+(now-last)/1000);if(t>=dur)run=false}last=now;
+  x.clearRect(0,0,600,300);x.textAlign='left';draw(x,t/dur,t)}requestAnimationFrame(frame)})(performance.now());
+});
+</script></body></html>

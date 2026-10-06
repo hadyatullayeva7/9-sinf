@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gaz molekulalarining harakat tezligi — 9-sinf fizika</title>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eaf0f3;--gr:#d5dfe5;--card:#fff;--ink:#14283a;--mut:#4d6273;--cold:#1f74c9;--hot:#dc4a22;--acc:#f0b400;--line:#c3d0d8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1b26;--gr:#182836;--card:#172635;--ink:#e6eef4;--mut:#9fb3c2;--cold:#5aa9f0;--hot:#ff7a50;--line:#2c4154}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg) linear-gradient(var(--gr) 1px,transparent 1px) 0 0/26px 26px,linear-gradient(90deg,var(--gr) 1px,transparent 1px) 0 0/26px 26px;color:var(--ink);font:16px/1.6 Onest,system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:18px 14px 50px}
+h1{font-size:clamp(26px,6vw,38px);line-height:1.15;margin:8px 0 4px;font-weight:800}
+.sub{color:var(--mut);margin:0 0 16px}
+.tabs{display:flex;gap:8px;position:sticky;top:env(safe-area-inset-top,0px);padding:8px 0;background:var(--bg);z-index:5}
+.tabs button{flex:1;padding:10px;border:2px solid var(--ink);background:var(--card);color:var(--ink);font:600 15px Onest,sans-serif;border-radius:10px;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--ink);color:var(--card)}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+section.band{display:none}section.band.on{display:block}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;margin:14px 0}
+h2{font-size:22px;margin:18px 0 0}
+h3{font-size:17px;margin:0 0 8px;display:flex;gap:10px;align-items:center}
+h3 b{background:var(--ink);color:var(--card);width:26px;height:26px;border-radius:6px;display:grid;place-items:center;font-size:14px;flex:none}
+p{margin:6px 0}
+.f{font-size:19px;background:var(--bg);border-left:5px solid var(--hot);padding:8px 12px;margin:8px 0;overflow-x:auto;white-space:nowrap}
+ul.u{margin:6px 0;padding-left:20px;color:var(--mut);font-size:15px}
+.sol{background:var(--bg);padding:10px 12px;border-radius:8px;overflow-x:auto;font-size:15px}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:15px}td,th{border:1px solid var(--line);padding:5px 8px;text-align:center}
+canvas{display:block;width:100%;height:auto;background:#0e2131;border-radius:8px}
+.ctl{display:grid;gap:8px;margin:10px 0}
+.ctl label{display:flex;gap:10px;align-items:center;font-weight:600;font-size:15px}
+.ctl input[type=range]{flex:1;accent-color:var(--hot)}
+.gs{display:flex;flex-wrap:wrap;gap:6px}.gs button{padding:6px 10px;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);border-radius:8px;font:600 14px Onest,sans-serif;cursor:pointer}
+.gs button[aria-pressed=true]{background:var(--cold);color:#fff;border-color:var(--cold)}
+.ro{font-size:20px;font-weight:600;margin:8px 0;overflow-x:auto;white-space:nowrap}
+.ro em{font-style:normal;color:var(--hot)}.ro i{font-style:normal;color:var(--cold)}
+.cap{color:var(--mut);font-size:14px;margin:4px 0 0}
+details{border-top:1px solid var(--line);padding:8px 0}summary{cursor:pointer;font-weight:600}
+</style></head>
+<body><main>
+<h1>Gaz molekulalarining harakat tezligi</h1>
+<p class="sub">9-sinf fizika · dars materiali</p>
+<div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-t="b1">1. Universal gaz doimiysi</button><button role="tab" aria-selected="false" data-t="b2">2. Shtern tajribasi</button></div>
+
+<section class="band on" id="b1">
+<h2>1. Universal gaz doimiysi</h2>
+<div class="card"><h3><b>A</b>Nazariy tushuntirish</h3>
+<p>Gaz molekulalari doimo tartibsiz harakat qiladi va ularning tezliklari turlicha bo‘ladi. Butun gazning harakatini tavsiflash uchun o‘rtacha kvadratik tezlik olinadi. Universal gaz doimiysi R har qanday ideal gaz uchun bir xil qiymatga ega: R = 8,31 J/(mol·K). U Avogadro soni bilan Boltsman doimiysining ko‘paytmasiga teng. Mendeleyev–Klapeyron tenglamasi gazning bosimi, hajmi, harorati va modda miqdorini bog‘laydi. Harorat ortsa molekulalar tezroq harakatlanadi: harorat 4 marta ortsa, tezlik 2 marta ortadi. Molyar massa kichik bo‘lsa ham tezlik katta bo‘ladi: vodorod molekulalari azotnikidan taxminan 3,7 marta tez uchadi.</p></div>
+<div class="card"><h3><b>B</b>Asosiy formulalar</h3>
+<div class="f">R = N<sub>A</sub>·k = 8,31 J/(mol·K)</div>
+<div class="f">pV = νRT = (m/M)·RT</div>
+<div class="f">v = √(3RT/M) = √(3kT/m<sub>0</sub>)</div>
+<ul class="u"><li>R — universal gaz doimiysi, J/(mol·K); N<sub>A</sub> = 6,02·10²³ 1/mol; k = 1,38·10⁻²³ J/K</li><li>p — bosim, Pa; V — hajm, m³; ν — modda miqdori, mol; m — massa, kg</li><li>T — harorat, K (T = t + 273); M — molyar massa, kg/mol; m₀ — bitta molekula massasi, kg</li><li>v — o‘rtacha kvadratik tezlik, m/s</li></ul></div>
+<div class="card"><h3><b>C</b>Misol-masala</h3>
+<p><b>Masala.</b> 0 °C va 27 °C da kislorod (M = 0,032 kg/mol), vodorod (0,002) va azot (0,028) molekulalarining tezligini hisoblang.</p>
+<div class="sol"><b>Yechish:</b> T₁ = 273 K, T₂ = 300 K. v = √(3RT/M).<br>Masalan, O₂ uchun 0 °C da: v = √(3·8,31·273 / 0,032) = √212 700 ≈ 461 m/s.</div>
+<div class="tw"><table><tr><th>Gaz</th><th>0 °C (273 K)</th><th>27 °C (300 K)</th></tr><tr><td>H₂</td><td>1845 m/s</td><td>1934 m/s</td></tr><tr><td>N₂</td><td>493 m/s</td><td>517 m/s</td></tr><tr><td>O₂</td><td>461 m/s</td><td>483 m/s</td></tr></table></div>
+<p><b>Xulosa:</b> har bir gazda harorat ortsa tezlik ortadi; bir xil haroratda molyar massa eng kichik gaz (H₂) eng tez harakatlanadi.</p></div>
+<div class="card"><h3><b>D</b>Simulyatsiya</h3>
+<canvas id="c1" width="340" height="250" aria-label="Idishdagi molekulalar"></canvas>
+<div class="ctl"><label>T = <span id="t1v">300</span> K <input type="range" id="t1" min="100" max="600" value="300" aria-label="Harorat"></label>
+<div class="gs" id="g1" role="group" aria-label="Gaz turi"></div></div>
+<div class="ro" id="r1"></div>
+<p class="cap">Tezliklar taqsimoti (gistogramma, m/s):</p>
+<canvas id="h1" width="340" height="90"></canvas>
+<p class="cap">Rang: ko‘k — sekin, qizil — tez molekulalar. Tezlik shkalasi barcha gaz va haroratlar uchun bir xil.</p></div>
+<div class="card"><h3><b>E</b>Animatsiya: sovuq → issiq</h3>
+<canvas id="c2" width="340" height="190"></canvas>
+<div class="ro" id="r2"></div>
+<p class="cap" id="p2"></p></div>
+<div class="card"><h3><b>F</b>Nazorat savollari</h3>
+<details><summary>1. R nimaga teng va u qaysi kattaliklar ko‘paytmasi?</summary><p>R = 8,31 J/(mol·K); R = N<sub>A</sub>·k.</p></details>
+<details><summary>2. Harorat 4 marta ortsa, molekulalar tezligi necha marta o‘zgaradi?</summary><p>v ~ √T, shuning uchun 2 marta ortadi.</p></details>
+<details><summary>3. 27 °C da vodorod molekulalari kislorodnikidan necha marta tez va nega?</summary><p>M(O₂)/M(H₂) = 16, √16 = 4 marta (1934 va 483 m/s). Vodorodning molyar massasi kichik.</p></details></div>
+</section>
+
+<section class="band" id="b2">
+<h2>2. Shtern tajribasi</h2>
+<div class="card"><h3><b>A</b>Nazariy tushuntirish</h3>
+<p>Shtern tajribasi 1920-yilda molekulalar tezligini o‘lchash uchun o‘tkazilgan. Havosi so‘rib olingan ikkita koaksial silindrning o‘qi bo‘ylab kumush surtilgan platina sim tortiladi. Sim qizdirilganda kumush atomlari uchib chiqadi va ichki silindrdagi tirqishdan o‘tib, tashqi silindr devoriga o‘tiradi. Silindrlar qo‘zg‘almas bo‘lsa, iz tirqish qarshisida hosil bo‘ladi. Silindrlar aylantirilsa, atomlar uchib borguncha devor burilib ketadi va iz s masofaga siljiydi. Siljish qancha kichik bo‘lsa, atom shuncha tez uchgan. Iz biroz xira va cho‘zilgan bo‘ladi, chunki atomlarning tezliklari turlicha; o‘lchangan tezlik nazariy qiymatga mos keladi.</p></div>
+<div class="card"><h3><b>B</b>Asosiy formulalar</h3>
+<div class="f">t = l / v</div>
+<div class="f">s = ω·R·t &nbsp;⇒&nbsp; v = ω·R·l / s</div>
+<div class="f">ω = 2π·n</div>
+<ul class="u"><li>l — silindrlar orasidagi masofa (R − r), m; R — tashqi silindr radiusi, m</li><li>t — atomning uchish vaqti, s; v — atom tezligi, m/s</li><li>ω — burchak tezlik, rad/s; n — aylanish chastotasi, 1/s</li><li>s — izning siljishi, m</li></ul></div>
+<div class="card"><h3><b>C</b>Misol-masala</h3>
+<p><b>Masala.</b> R = 0,12 m, l = 0,1 m, n = 150 1/s. Iz s = 2,4 cm ga siljigan. Atom tezligini toping.</p>
+<div class="sol">ω = 2π·150 ≈ 942 rad/s<br>v = ωRl / s = 942·0,12·0,1 / 0,024 ≈ <b>471 m/s</b></div></div>
+<div class="card"><h3><b>D</b>Simulyatsiya</h3>
+<canvas id="c3" width="340" height="340" aria-label="Shtern tajribasi, tepadan ko‘rinish"></canvas>
+<div class="ctl"><label>n = <span id="nv">150</span> 1/s <input type="range" id="n3" min="0" max="300" value="150" aria-label="Aylanish chastotasi"></label>
+<label>v = <span id="vv">500</span> m/s <input type="range" id="v3" min="200" max="800" value="500" aria-label="Atom tezligi"></label></div>
+<div class="ro" id="r3"></div>
+<p class="cap">Sariy nuqtalar — kumush atomlari. Oq belgi — tirqish yo‘nalishi, aylanuvchi silindrda. Vaqt sekinlashtirib ko‘rsatilgan.</p></div>
+<div class="card"><h3><b>E</b>Animatsiya: silindr turg‘un → aylanmoqda</h3>
+<canvas id="c4" width="340" height="340"></canvas>
+<p class="cap" id="p4"></p></div>
+<div class="card"><h3><b>F</b>Nazorat savollari</h3>
+<details><summary>1. Nega silindrlar orasidagi havo so‘rib olinadi?</summary><p>Atomlar havo molekulalari bilan to‘qnashmay, to‘g‘ri chiziq bo‘ylab uchishi uchun.</p></details>
+<details><summary>2. Aylanish chastotasi ortsa, izning siljishi qanday o‘zgaradi?</summary><p>s ~ ω bo‘lgani uchun siljish ortadi.</p></details>
+<details><summary>3. Atom tezligi 2 marta ortsa, s qanday o‘zgaradi?</summary><p>s ~ 1/v, shuning uchun 2 marta kamayadi.</p></details></div>
+</section>
+</main>
+<script>
+const $=id=>document.getElementById(id),R0=8.31;
+const G={H2:['H₂',.002],He:['He',.004],N2:['N₂',.028],O2:['O₂',.032],CO2:['CO₂',.044]};
+const vr=(T,M)=>Math.sqrt(3*R0*T/M);
+const rn=()=>Math.sqrt(-2*Math.log(1-Math.random()))*Math.cos(6.2832*Math.random());
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));
+ document.querySelectorAll('.band').forEach(s=>s.classList.toggle('on',s.id===b.dataset.t));scrollTo(0,0)});
+function box(cv,st,hc,cb){
+ const c=cv.getContext('2d'),W=cv.width,H=cv.height,P=[];
+ for(let i=0;i<80;i++)P.push({x:10+Math.random()*(W-20),y:10+Math.random()*(H-20),a:rn(),b:rn()});
+ (function f(){requestAnimationFrame(f);if(!cv.offsetParent)return;
+  const v=vr(st.T,st.M),s=v/Math.SQRT2,k=s/450,sp=[];c.clearRect(0,0,W,H);
+  for(const p of P){p.x+=p.a*k;p.y+=p.b*k;
+   if(p.x<5||p.x>W-5){p.a=-p.a;p.x=Math.min(W-5,Math.max(5,p.x))}
+   if(p.y<5||p.y>H-5){p.b=-p.b;p.y=Math.min(H-5,Math.max(5,p.y))}
+   const q=Math.hypot(p.a,p.b)*s;sp.push(q);
+   c.fillStyle=`hsl(${220-220*Math.min(1,q/3000)},90%,58%)`;c.beginPath();c.arc(p.x,p.y,4,0,7);c.fill()}
+  if(hc){const h=hc.getContext('2d'),B=new Array(16).fill(0);h.clearRect(0,0,hc.width,hc.height);
+   sp.forEach(q=>B[Math.min(15,q/250|0)]++);const w=hc.width/16;
+   B.forEach((n,i)=>{const bh=n/80*(hc.height-16)*2.4;h.fillStyle=`hsl(${220-220*(i+.5)/12},85%,58%)`;h.fillRect(i*w+1,hc.height-14-bh,w-2,bh)});
+   h.fillStyle='#9fb3c2';h.font='10px sans-serif';[0,1000,2000,3000].forEach(x=>h.fillText(x,x/250*w+2,hc.height-3))}
+  cb&&cb(v)})();
+}
+/* 1-band simulyatsiya */
+const s1={T:300,M:.032};let g1='O2';
+Object.keys(G).forEach(k=>{const b=document.createElement('button');b.textContent=G[k][0];b.setAttribute('aria-pressed',k===g1);
+ b.onclick=()=>{g1=k;s1.M=G[k][1];[...$('g1').children].forEach(x=>x.setAttribute('aria-pressed',x===b))};$('g1').append(b)});
+$('t1').oninput=e=>{s1.T=+e.target.value;$('t1v').textContent=s1.T};
+box($('c1'),s1,$('h1'),v=>$('r1').innerHTML=`v = √(3·8,31·<em>${s1.T}</em> / <i>${s1.M}</i>) = <b>${Math.round(v)} m/s</b>`);
+/* 1-band animatsiya */
+const s2={T:100,M:.032},seq=['CO2','O2','N2','He','H2'],t0=performance.now();
+box($('c2'),s2,null,v=>{const t=((performance.now()-t0)/1000)%14;let hi,tx;
+ if(t<7){s2.T=100+500*t/7;s2.M=.032;hi='T';tx='Harorat ko‘tarilmoqda (O₂): molekulalar tezlashadi.'}
+ else{const g=seq[Math.min(4,(t-7)/1.4|0)];s2.T=300;s2.M=G[g][1];hi='M';tx=`T = 300 K, gaz almashmoqda: ${G[g][0]}, M = ${G[g][1]} kg/mol.`}
+ $('r2').innerHTML=`v = √(3R·${hi=='T'?'<em>':''}T${hi=='T'?'</em>':''} / ${hi=='M'?'<i>':''}M${hi=='M'?'</i>':''}) = <b>${Math.round(v)} m/s</b>`;
+ $('p2').textContent=`T = ${Math.round(s2.T)} K · M = ${s2.M} kg/mol. ${tx}`});
+/* Shtern */
+function stern(cv,st,cb){
+ const c=cv.getContext('2d'),S=cv.width,C=S/2,R=.12,r=.02,sc=(C-10)/R;let t=0,th=0,A=[],M=[],fr=0;
+ const X=(a,d)=>C+d*sc*Math.cos(a),Y=(a,d)=>C-d*sc*Math.sin(a);
+ (function f(){requestAnimationFrame(f);if(!cv.offsetParent)return;
+  if(st.reset){A=[];M=[];st.reset=0}
+  const w=2*Math.PI*st.n,dt=1.3e-4/60;t+=dt;th+=w*dt;fr++;
+  if(fr%5==0)A.push({t0:t,a:th,v:st.v*(.85+.3*Math.random())});
+  c.clearRect(0,0,S,S);c.lineWidth=2;
+  c.strokeStyle='#6f8aa0';c.beginPath();c.arc(C,C,R*sc,0,7);c.stroke();
+  c.strokeStyle='#e6eef4';c.beginPath();c.arc(C,C,r*sc,th+.35,th+6.28-.35);c.stroke();
+  c.strokeStyle='#fff';c.lineWidth=3;c.beginPath();c.moveTo(X(th,R),Y(th,R));c.lineTo(X(th,R*1.0-.012),Y(th,R-.012));c.stroke();
+  c.fillStyle='#f0b400';
+  A=A.filter(p=>{const d=r+p.v*(t-p.t0);
+   if(d>=R){M.push(p.a-th);if(M.length>260)M.shift();return false}
+   c.beginPath();c.arc(X(p.a,d),Y(p.a,d),2.5,0,7);c.fill();return true});
+  c.fillStyle='#ff7a50';M.forEach(m=>{c.beginPath();c.arc(X(m+th,R),Y(m+th,R),2.2,0,7);c.fill()});
+  c.fillStyle='#dc4a22';c.beginPath();c.arc(C,C,3,0,7);c.fill();
+  cb&&cb(w)})();
+}
+const s3={n:150,v:500};
+$('n3').oninput=e=>{s3.n=+e.target.value;$('nv').textContent=s3.n};
+$('v3').oninput=e=>{s3.v=+e.target.value;$('vv').textContent=s3.v};
+stern($('c3'),s3,w=>{const s=w*.12*.1/s3.v;
+ $('r3').innerHTML=`ω = <em>${Math.round(w)}</em> rad/s · s = ωRl/v = <b>${(s*100).toFixed(1)} cm</b>`});
+const s4={n:0,v:500,reset:0};let ph=-1;const t4=performance.now();
+stern($('c4'),s4,()=>{const p=((performance.now()-t4)/1000%12)<5?0:1;
+ if(p!==ph){ph=p;s4.n=p?150:0;s4.reset=1;
+  $('p4').textContent=p?'Silindrlar aylanmoqda (n = 150 1/s): iz s masofaga siljidi.':'Silindrlar qo‘zg‘almas: iz tirqish qarshisida to‘planadi.'}});
+</script></body></html>
